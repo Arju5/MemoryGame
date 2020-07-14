@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button_fetch:
                 ImageAdapter imgAdapter =new ImageAdapter(this,R.layout.image_row, (ArrayList<String>) this.testlist1);
                 GridView gridView1 = findViewById(R.id.gridView1);
-                gridView1.setEnabled(false);
+                // gridView1.setEnabled(false);
                 gridView1.setNumColumns(4);
                 if (gridView1 != null){
                     gridView1.setAdapter(imgAdapter);
@@ -65,10 +65,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        ImageView imageView = view.findViewById(R.id.img1);
-        String expr = "I hate this";
-        Toast toast = Toast.makeText(this,expr,Toast.LENGTH_LONG);
-        toast.show();
+//        ImageView imageView = view.findViewById(R.id.img1);
+//        String expr = "I hate this";
+//        Toast toast = Toast.makeText(this,expr,Toast.LENGTH_LONG);
+//        toast.show();
 
     }
 }
