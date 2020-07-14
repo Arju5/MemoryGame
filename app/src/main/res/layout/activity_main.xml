@@ -30,4 +30,14 @@
         android:text="Fetch"
         tools:ignore="MissingConstraints" />
 
+    <ListView
+        android:id="@+id/listView1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:divider="#e5e5ff"
+        android:dividerHeight="1dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_url"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
