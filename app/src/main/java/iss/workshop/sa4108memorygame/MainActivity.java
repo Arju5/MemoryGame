@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -44,10 +45,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.button_fetch:
                 ImageAdapter imgAdapter =new ImageAdapter(this,R.layout.image_row, (ArrayList<String>) this.testlist1);
-                ListView listView1 = findViewById(R.id.listView1);
-                listView1.setEnabled(false);
-                if (listView1 != null){
-                    listView1.setAdapter(imgAdapter);
+                GridView gridView1 = findViewById(R.id.gridView1);
+                gridView1.setEnabled(false);
+                if (gridView1 != null){
+                    gridView1.setAdapter(imgAdapter);
                 }
                 break;
 
