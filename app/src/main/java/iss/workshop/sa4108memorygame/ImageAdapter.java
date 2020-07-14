@@ -36,6 +36,7 @@ public class ImageAdapter extends ArrayAdapter {
 
         int id1 = context.getResources().getIdentifier(imgList.get(pos),"drawable",context.getPackageName());
         img1.setImageResource(id1);
+//        img1.setTag(imgList.get(id1));
 
 
 

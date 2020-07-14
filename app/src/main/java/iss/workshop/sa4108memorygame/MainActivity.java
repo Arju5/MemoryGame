@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,14 +61,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
-
+// Still not working properly
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        switch(adapterView.getId()){
-            //This is still not working well - need to resolve
-            case R.id.img1:
-                System.out.println("This is onItemClick");
-        }
+
+        ImageView imageView = view.findViewById(R.id.img1);
+        String expr = "I hate this";
+        Toast toast = Toast.makeText(this,expr,Toast.LENGTH_LONG);
+        toast.show();
 
     }
 }
