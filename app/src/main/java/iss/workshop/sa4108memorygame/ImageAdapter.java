@@ -34,7 +34,11 @@ public class ImageAdapter extends ArrayAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int id = view.getId();
+                System.out.println(id);
+                //Need to change test text to a proper id
                 Toast.makeText(context, "test text", Toast.LENGTH_LONG).show();
+
             }
         });
         ImageView img1 = view.findViewById(R.id.img1);
