@@ -12,6 +12,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -55,6 +63,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mEditTextUrl = findViewById(R.id.edit_text_url);
                 String urlString = mEditTextUrl.getText().toString();
                 System.out.println(urlString);
+                HTMLParser htmlParser = new HTMLParser(urlString);
+
+                Thread thread = new URLParserThread(urlString);
+                thread.start();
+
 
                 ImageAdapter imgAdapter =new ImageAdapter(this,R.layout.image_row, (ArrayList<String>) this.testlist1);
                 GridView gridView1 = findViewById(R.id.gridView1);
@@ -62,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 gridView1.setNumColumns(4);
                 if (gridView1 != null){
                     gridView1.setAdapter(imgAdapter);
+                    //this is not working normally for now
                     gridView1.setOnItemClickListener(this);
 
                 }
@@ -75,4 +89,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
     }
+
+
 }
