@@ -47,11 +47,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
 
             case R.id.button_fetch:
-                ImageAdapter imgAdapter =new ImageAdapter(this,R.layout.image_row, (ArrayList<String>) this.testlist1);
+                ImageAdapter imgAdapter = new ImageAdapter(this, R.layout.image_row, (ArrayList<String>) this.testlist1);
                 GridView gridView1 = findViewById(R.id.gridView1);
                 // gridView1.setEnabled(false);
                 gridView1.setNumColumns(4);
-                if (gridView1 != null){
+                if (gridView1 != null) {
                     gridView1.setAdapter(imgAdapter);
                     gridView1.setOnItemClickListener(this);
 
