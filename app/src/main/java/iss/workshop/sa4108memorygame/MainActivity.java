@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mEditTextUrl = findViewById(R.id.edit_text_url);
                 String urlString = mEditTextUrl.getText().toString();
                 System.out.println(urlString);
-                HTMLParser htmlParser = new HTMLParser(urlString);
 
                 Thread thread = new URLParserThread(urlString);
                 thread.start();
