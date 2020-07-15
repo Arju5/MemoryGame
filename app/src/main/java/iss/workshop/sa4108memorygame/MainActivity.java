@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -17,6 +18,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
+
+    Button mButtonFetch;
+    EditText mEditTextUrl;
 
     //testdata
     private String[] cartoons = {
@@ -33,10 +37,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
 
-
-        Button mButtonFetch = findViewById(R.id.button_fetch);
+        mButtonFetch = findViewById(R.id.button_fetch);
         if (mButtonFetch !=null){
             mButtonFetch.setOnClickListener(this);
+            //check if urlString is registering properly
+
         }
     }
 
@@ -47,11 +52,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
 
             case R.id.button_fetch:
-                ImageAdapter imgAdapter = new ImageAdapter(this, R.layout.image_row, (ArrayList<String>) this.testlist1);
+                mEditTextUrl = findViewById(R.id.edit_text_url);
+                String urlString = mEditTextUrl.getText().toString();
+                System.out.println(urlString);
+
+                ImageAdapter imgAdapter =new ImageAdapter(this,R.layout.image_row, (ArrayList<String>) this.testlist1);
                 GridView gridView1 = findViewById(R.id.gridView1);
-                // gridView1.setEnabled(false);
+                gridView1.setEnabled(false);
                 gridView1.setNumColumns(4);
-                if (gridView1 != null) {
+                if (gridView1 != null){
                     gridView1.setAdapter(imgAdapter);
                     gridView1.setOnItemClickListener(this);
 
@@ -61,14 +70,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
-// Still not working properly
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-//        ImageView imageView = view.findViewById(R.id.img1);
-//        String expr = "I hate this";
-//        Toast toast = Toast.makeText(this,expr,Toast.LENGTH_LONG);
-//        toast.show();
 
     }
 }
