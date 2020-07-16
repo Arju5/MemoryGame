@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:layout_marginVertical="30dp"
-        android:background="#f1f1f1">
+        android:background="#f1f1f1"
+        android:gravity="center">
 
 
         <TableRow
