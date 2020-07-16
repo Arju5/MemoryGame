@@ -64,7 +64,6 @@ public class HTMLParser extends AsyncTask<Void, Void, Void> {
                 }
                 //read next line
                 inputLine = bufferedReader.readLine();
-
             }
 
         }
