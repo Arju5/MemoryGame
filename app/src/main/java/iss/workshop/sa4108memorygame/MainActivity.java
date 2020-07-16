@@ -7,6 +7,8 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -36,9 +38,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText mEditTextUrl;
     ProgressBar mProgressBar;
 
-    private HandlerThread ht;
-    private Handler hdl;
-
+    @SuppressLint("HandlerLeak")
+    Handler mainThreadHandler = new Handler() {
+        public void handleMessage(@NonNull Message msg) {
+            if (msg.what == 1) {
+                String[] htmlStringArray = (String[]) msg.obj;
+                System.out.println("This is the first url i want to use: " + htmlStringArray[0]);
+            }
+        }
+    };
 
     //testdata
     private String[] cartoons = {
@@ -54,15 +62,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ht = new HandlerThread("bg_thread_1");
-        ht.start();
-
-
-
         mButtonFetch = findViewById(R.id.button_fetch);
         if (mButtonFetch !=null){
             mButtonFetch.setOnClickListener(this);
-            //check if urlString is registering properly
 
         }
     }
@@ -76,9 +78,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button_fetch:
                 mEditTextUrl = findViewById(R.id.edit_text_url);
                 String urlString = mEditTextUrl.getText().toString();
-                System.out.println(urlString);
+//                System.out.println(urlString);
 
-                Thread thread = new URLParserThread(urlString);
+                Thread thread = new URLParserThread(urlString,MainActivity.this,mainThreadHandler);
                 thread.start();
 
                 ImageAdapter imgAdapter =new ImageAdapter(this,R.layout.image_row, (ArrayList<String>) this.testlist1);
