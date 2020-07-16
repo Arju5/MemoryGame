@@ -16,13 +16,15 @@
         android:layout_marginTop="150dp" />
 
     <TextView
+        android:id="@+id/playerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Arjun"
+        android:text="@string/arjun"
         android:textSize="20sp"
         android:layout_marginTop="50dp" />
 
     <TextView
+        android:id="@+id/playerScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="2'33"
