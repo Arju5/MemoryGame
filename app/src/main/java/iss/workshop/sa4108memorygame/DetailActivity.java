@@ -18,10 +18,10 @@ public class DetailActivity extends AppCompatActivity {
     ImageView currentView = null;
     private int countPair = 0;
     final int[] selectedImg = new int[]{
-            R.drawable.question,R.drawable.question,R.drawable.question,
-            R.drawable.question,R.drawable.question,R.drawable.question,
-            R.drawable.question,R.drawable.question,R.drawable.question,
-            R.drawable.question,R.drawable.question,R.drawable.question};
+            R.drawable.hug,R.drawable.laugh,R.drawable.peep,
+            R.drawable.snore,R.drawable.stop,R.drawable.tired,
+            R.drawable.hug,R.drawable.laugh,R.drawable.peep,
+            R.drawable.snore,R.drawable.stop,R.drawable.tired};
 //    final String[] selectedImg = new String[]{
 //         "hug", "laugh", "peep", "snore", "stop","tired"};
 
