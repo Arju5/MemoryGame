@@ -54,10 +54,14 @@ public class HTMLParser extends AsyncTask<Void, Void, Void> {
             while (inputLine!=null){
                 // add this to our string builder
                 System.out.println(inputLine);
-                boolean isFound1 = inputLine.contains("https://cdn.stocksnap.io/img-thumbs/");
-                boolean isFound2 = inputLine.contains("img data");
+                String checkString1 = "https://cdn.stocksnap.io/img-thumbs/";
+                String checkString2 = "img data";
+
+                boolean isFound1 = inputLine.contains(checkString1);
+                boolean isFound2 = inputLine.contains(checkString2);
                 if (isFound1 == true && isFound2 == true){
-                    sb.append(inputLine + "\n");
+                    String inputLineFinal = inputLine.substring(inputLine.indexOf(checkString1),inputLine.indexOf(".jpg") + 4);
+                    sb.append(inputLineFinal + "\n");
                 }
                 //read next line
                 inputLine = bufferedReader.readLine();
