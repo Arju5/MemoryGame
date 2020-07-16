@@ -20,9 +20,6 @@
 
         <TableRow
             android:id="@+id/tableRow"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="100"
             android:background="@color/colorAccent"
             android:showDividers="end">
 
@@ -62,7 +59,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="100"
-            android:background="@color/colorAccent"
             android:showDividers="end">
 
 
@@ -100,7 +96,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="100"
-            android:background="@color/colorAccent"
             android:showDividers="end">
 
 
@@ -138,7 +133,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="100"
-            android:background="@color/colorAccent"
             android:showDividers="end">
 
 
