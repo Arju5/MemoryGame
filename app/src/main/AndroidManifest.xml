@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ResultActivity"></activity>
+        <activity android:name=".ScoreActivity"></activity>
 
         <receiver
             android:name=".MyBroadcastReceiver"

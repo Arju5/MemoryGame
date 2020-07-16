@@ -29,7 +29,9 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     public void openScoreboard() {
-        Intent intent = new Intent(this, ScoreActivity.class);
+        Intent intent = new Intent(ResultActivity.this, ScoreActivity.class);
+        intent.putExtra("name", "Team 3");
+        startActivity(intent);
 
     }
 }
