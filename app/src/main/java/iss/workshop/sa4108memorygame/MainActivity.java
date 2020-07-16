@@ -7,6 +7,8 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -37,8 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ProgressBar mProgressBar;
 
     private HandlerThread ht;
-    private Handler hdl;
-
+    private Handler hdl = new Handler();
+    private String htmlString;
 
     //testdata
     private String[] cartoons = {
@@ -78,8 +80,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String urlString = mEditTextUrl.getText().toString();
                 System.out.println(urlString);
 
-                Thread thread = new URLParserThread(urlString);
+                Thread thread = new URLParserThread(urlString,MainActivity.this);
                 thread.start();
+
 
                 ImageAdapter imgAdapter =new ImageAdapter(this,R.layout.image_row, (ArrayList<String>) this.testlist1);
                 GridView gridView1 = findViewById(R.id.gridView1);

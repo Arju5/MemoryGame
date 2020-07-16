@@ -1,5 +1,6 @@
 package iss.workshop.sa4108memorygame;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -9,21 +10,28 @@ import java.io.IOException;
 
 public class URLParserThread extends Thread{
     private String url;
+    private Context context;
 
 
-    public URLParserThread(String url){
+    public URLParserThread(String url,Context context){
         super();
         this.url = url;
+        this.context = context;
     }
 
     @Override
     public void run() {
 
 
-        HTMLParser htmlParser = new HTMLParser(url);
+        HTMLParser htmlParser = new HTMLParser(url,context);
         try {
             String htmlString = htmlParser.CreateHTMLString();
-            System.out.println(htmlString);
+//            System.out.println(htmlString);
+            htmlParser.writeToFile(htmlString);
+
+            String[] htmlStringArray = htmlString.split("(|)");
+            System.out.println(htmlStringArray);
+
 
             Looper mainThreadLooper = Looper.getMainLooper(); // --> Looper of the main/UI thread
             Handler mainThreadHandler = new Handler(mainThreadLooper); // --> Get handler to main thread
