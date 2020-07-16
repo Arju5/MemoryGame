@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 public class ResultActivity extends AppCompatActivity {
 
+    private Button start;
     private Button scoreboard;
 
     @Override
@@ -17,6 +18,13 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
+        start = (Button) findViewById(R.id.start);
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openMainActivity();
+            }
+        });
 
         scoreboard = (Button) findViewById(R.id.scoreboard);
         scoreboard.setOnClickListener(new View.OnClickListener() {
@@ -29,9 +37,14 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     public void openScoreboard() {
-        Intent intent = new Intent(ResultActivity.this, ScoreActivity.class);
-        intent.putExtra("name", "Team 3");
-        startActivity(intent);
+        Intent scoreIntent = new Intent(ResultActivity.this, ScoreActivity.class);
+        scoreIntent.putExtra("name", "Team 3");
+        startActivity(scoreIntent);
 
+    }
+
+    public void openMainActivity() {
+        Intent mainIntent = new Intent(ResultActivity.this, MainActivity.class);
+        startActivity(mainIntent);
     }
 }

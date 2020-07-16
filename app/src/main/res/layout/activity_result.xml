@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="YOUR SCORE"
+        android:text="@string/yourscore"
         android:textSize="20sp"
         android:layout_marginTop="150dp" />
 
@@ -27,7 +27,7 @@
         android:id="@+id/playerScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2'33"
+        android:text="@string/time"
         android:textSize="20sp"
         android:layout_marginTop="10dp" />
 
@@ -35,14 +35,14 @@
         android:id="@+id/start"
         android:layout_width="150dp"
         android:layout_height="50dp"
-        android:text="START"
+        android:text="@string/start"
         android:layout_marginTop="50dp" />
 
     <Button
         android:id="@+id/scoreboard"
         android:layout_width="150dp"
         android:layout_height="50dp"
-        android:text="SCOREBOARD"
+        android:text="@string/scoreboard"
         android:layout_marginTop="20dp" />
 
 </LinearLayout>
