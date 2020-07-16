@@ -63,12 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        startActivity(new Intent(MainActivity.this, ResultActivity.class));
-
-        ht = new HandlerThread("bg_thread_1");
-        ht.start();
-
-
+//        startActivity(new Intent(MainActivity.this, ResultActivity.class));
 
         mButtonFetch = findViewById(R.id.button_fetch);
         if (mButtonFetch !=null){
@@ -86,9 +81,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button_fetch:
                 mEditTextUrl = findViewById(R.id.edit_text_url);
                 String urlString = mEditTextUrl.getText().toString();
-//                System.out.println(urlString);
-
-                Thread thread = new URLParserThread(urlString,MainActivity.this,mainThreadHandler);
+                System.out.println(urlString);
+                Thread thread = new URLParserThread(urlString,MainActivity.this, mainThreadHandler);
                 thread.start();
 
                 ImageAdapter imgAdapter =new ImageAdapter(this,R.layout.image_row, (ArrayList<String>) this.testlist1);
