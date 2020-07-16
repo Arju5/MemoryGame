@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.os.Message;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class URLParserThread extends Thread{
     private String url;
@@ -29,9 +30,8 @@ public class URLParserThread extends Thread{
 //            System.out.println(htmlString);
             htmlParser.writeToFile(htmlString);
 
-            String[] htmlStringArray = htmlString.split("(|)");
-            System.out.println(htmlStringArray);
-
+            String[] htmlStringArray = htmlString.split("url");
+            System.out.println(Arrays.toString(htmlStringArray));
 
             Looper mainThreadLooper = Looper.getMainLooper(); // --> Looper of the main/UI thread
             Handler mainThreadHandler = new Handler(mainThreadLooper); // --> Get handler to main thread

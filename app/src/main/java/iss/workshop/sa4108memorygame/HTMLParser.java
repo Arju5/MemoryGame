@@ -50,10 +50,15 @@ public class HTMLParser extends AsyncTask<Void, Void, Void> {
 
             //read one line at a time
             String inputLine = bufferedReader.readLine();
-            System.out.println(inputLine);
+
             while (inputLine!=null){
                 // add this to our string builder
-                sb.append(inputLine);
+                System.out.println(inputLine);
+                boolean isFound1 = inputLine.contains("https://cdn.stocksnap.io/img-thumbs/");
+                boolean isFound2 = inputLine.contains("img data");
+                if (isFound1 == true && isFound2 == true){
+                    sb.append(inputLine + "\n");
+                }
                 //read next line
                 inputLine = bufferedReader.readLine();
 
@@ -72,6 +77,7 @@ public class HTMLParser extends AsyncTask<Void, Void, Void> {
         try{
             String filePath = "HTMLStringFolder";
             String fileName = "HTMLStringFile.txt";
+            //get the folder directory here the file will be saved
             System.out.println(context.getFilesDir());
             File mTargetFile = new File(context.getFilesDir(), filePath + "/" + fileName);
 
