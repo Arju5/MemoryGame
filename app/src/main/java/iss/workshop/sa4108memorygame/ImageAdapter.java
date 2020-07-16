@@ -32,12 +32,12 @@ public class ImageAdapter extends ArrayAdapter {
                 Activity.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.image_row, null);
         view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int id = view.getId();
-                System.out.println(id);
-                //Need to change test text to a proper id
-                Toast.makeText(context, "test text", Toast.LENGTH_LONG).show();
+                    @Override
+                    public void onClick(View view) {
+                        int id = view.getId();
+                        System.out.println(id);
+                        //Need to change test text to a proper id
+                        Toast.makeText(context, "test text", Toast.LENGTH_LONG).show();
 
             }
         });
