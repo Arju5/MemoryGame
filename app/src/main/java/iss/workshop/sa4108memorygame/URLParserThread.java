@@ -30,13 +30,22 @@ public class URLParserThread extends Thread{
 //            System.out.println(htmlString);
             htmlParser.writeToFile(htmlString);
 
-            String[] htmlStringArray = htmlString.split("url");
-            System.out.println(Arrays.toString(htmlStringArray));
+            String[] htmlStringArray = htmlString.split("\n");
+//            System.out.println(Arrays.toString(htmlStringArray));
+
+            int counter = 0;
+            for (int i = 0; i < htmlStringArray.length; i++)
+            {
+                while (i<20)
+                {
+                    System.out.println(htmlStringArray[i]);
+                }
+            }
 
             Looper mainThreadLooper = Looper.getMainLooper(); // --> Looper of the main/UI thread
             Handler mainThreadHandler = new Handler(mainThreadLooper); // --> Get handler to main thread
             Message messageToSendToMainThread = Message.obtain(); // --> Create a message to send to UI thread
-            messageToSendToMainThread.obj = htmlString; // htmlString -> actual msg value
+            messageToSendToMainThread.obj = htmlStringArray; // htmlString -> actual msg value
             mainThreadHandler.sendMessage(messageToSendToMainThread);
         } catch (IOException e) {
             e.printStackTrace();

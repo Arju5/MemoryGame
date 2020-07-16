@@ -53,10 +53,9 @@ public class HTMLParser extends AsyncTask<Void, Void, Void> {
 
             while (inputLine!=null){
                 // add this to our string builder
-                System.out.println(inputLine);
+//                System.out.println(inputLine);
                 String checkString1 = "https://cdn.stocksnap.io/img-thumbs/";
                 String checkString2 = "img data";
-
                 boolean isFound1 = inputLine.contains(checkString1);
                 boolean isFound2 = inputLine.contains(checkString2);
                 if (isFound1 == true && isFound2 == true){
@@ -82,7 +81,7 @@ public class HTMLParser extends AsyncTask<Void, Void, Void> {
             String filePath = "HTMLStringFolder";
             String fileName = "HTMLStringFile.txt";
             //get the folder directory here the file will be saved
-            System.out.println(context.getFilesDir());
+//            System.out.println(context.getFilesDir());
             File mTargetFile = new File(context.getFilesDir(), filePath + "/" + fileName);
 
             File parent = mTargetFile.getParentFile();
