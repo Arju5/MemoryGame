@@ -1,8 +1,12 @@
 package iss.workshop.sa4108memorygame;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -10,6 +14,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
@@ -29,6 +34,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Button mButtonFetch;
     EditText mEditTextUrl;
+    ProgressBar mProgressBar;
+
+    private HandlerThread ht;
+    private Handler hdl;
+
 
     //testdata
     private String[] cartoons = {
@@ -43,6 +53,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ht = new HandlerThread("bg_thread_1");
+        ht.start();
+
 
 
         mButtonFetch = findViewById(R.id.button_fetch);
@@ -66,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 Thread thread = new URLParserThread(urlString);
                 thread.start();
-
 
                 ImageAdapter imgAdapter =new ImageAdapter(this,R.layout.image_row, (ArrayList<String>) this.testlist1);
                 GridView gridView1 = findViewById(R.id.gridView1);
