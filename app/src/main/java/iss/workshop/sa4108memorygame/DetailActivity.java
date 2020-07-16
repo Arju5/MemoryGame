@@ -77,6 +77,7 @@ public class DetailActivity extends AppCompatActivity {
     boolean isFlipped1 = false;
     boolean isFlipped2 = false;
     boolean isMatched = false;
+    String countMsg;
 
 
 //    final String[] selectedImg = new String[]{
@@ -148,19 +149,31 @@ public class DetailActivity extends AppCompatActivity {
                             }
                         },1000);
                     }
-                    else{
-                        secondview = (ImageView)view;
-                        flip(secondview,i,"second");
-                        //isMatched = true;
+                    else {
+                        secondview = (ImageView) view;
+                        flip(secondview, i, "second");
 
                         firstview.setEnabled(false);
                         secondview.setEnabled(false);
+                        //increasing count of matches
+                        //isMatched = true;
+                        countPair++;
+                        countMsg = countPair+"/6 Matches";
+                        TextView count = findViewById(R.id.NoOfMatches);
+                        if(count!=null) {
+                            count.setText(countMsg);
+                        }
+                        if(countPair == 6){
+                            isMatched = true;
+                            Toast.makeText(getApplicationContext(),"Congratulations!!! You win.",Toast.LENGTH_LONG).show();
+                        }
 
                         firstview = null;
                         secondview = null;
-                        isFlipped1  = false;
+                        isFlipped1 = false;
                         isFlipped2 = false;
                         isBusy = false;
+
                     }
                 }
             });
