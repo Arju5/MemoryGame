@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private HandlerThread ht;
     private Handler hdl;
-    
+
 
     //testdata
     private String[] cartoons = {
