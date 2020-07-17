@@ -82,6 +82,9 @@ public class HTMLParser extends AsyncTask<Void, Void, Void> {
             //get the folder directory here the file will be saved
 //            System.out.println(context.getFilesDir());
             File mTargetFile = new File(context.getFilesDir(), filePath + "/" + fileName);
+            System.out.println("This is the context absolute path: " + mTargetFile.getAbsolutePath());
+            System.out.println("This is the context: " + context.getFilesDir());
+
 
             File parent = mTargetFile.getParentFile();
             if(!parent.exists() && !parent.mkdirs()){

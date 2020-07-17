@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-    List<String> testlist1 = new ArrayList<String>(Arrays.asList(cartoons));
+    List<String> testlist1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,10 +89,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         for(int i = 1;i<21; i++){
+            String filePath = "GamePhoto";
             String fileName = "photo_" + i + ".jpg";
-            cartoons2[0] = fileName;
+            File mTargetFile = new File(MainActivity.this.getFilesDir(),filePath + "/" + fileName);
+//            System.out.println("This is the absolute path:" + mTargetFile.getAbsolutePath());
+            cartoons2[i-1] = mTargetFile.getAbsolutePath();
+            System.out.println("This is array file dir for  cartoons2:" + cartoons2[i-1]);
+
         }
-        System.out.println(cartoons2);
+        testlist1 = new ArrayList<String>(Arrays.asList(cartoons2));
 
     }
 
@@ -148,13 +153,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (counter == 6){
             System.out.println(selectedPictureArray);
             System.out.println(counter);
-            counter = 0;
             Intent intent = new Intent(this,DetailActivity.class);
             intent.putExtra("pictureList",selectedPictureArray);
             System.out.println(intent.getStringArrayListExtra("pictureList"));
+            counter = 0;
             startActivity(intent);
-
-
         }
     }
 
@@ -162,6 +165,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String filePath = "GamePhoto";
         String fileName = "photo_" + i + ".jpg";
         File mTargetFile = new File(context.getFilesDir(),filePath + "/" + fileName);
-
     }
 }
