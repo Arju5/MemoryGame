@@ -12,6 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+<!--        <service android:name=".BackgroundSoundService">-->
+<!--            <intent-filter>  -->
+<!--                <action android:name="com.angel.Android.MUSIC"/>-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--            </intent-filter>  -->
+<!--        </service>-->
+
         <activity android:name=".TimerTesting">
             <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,6 +46,24 @@
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
         </activity>
-    </application>
+        <activity android:name=".StartPage">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <activity android:name=".ResultActivity">
+
+        </activity>
+
+        <activity android:name=".ScoreActivity">
+
+        </activity>
+
+
+</application>
 
 </manifest>
