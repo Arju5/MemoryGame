@@ -27,7 +27,6 @@ public class URLParserThread extends Thread{
     @Override
     public void run() {
         Looper.prepare();
-        handler2 = new Handler();
 
         HTMLParser htmlParser = new HTMLParser(url,context);
         try {

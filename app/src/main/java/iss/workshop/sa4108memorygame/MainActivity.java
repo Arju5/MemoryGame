@@ -41,17 +41,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ProgressBar mProgressBar;
     private int counter = 0;
     private String[] htmlStringArray;
-    private String[] selectedPictureArray;
+    private ArrayList<String> selectedPictureArray = new ArrayList<String>() ;
 
     public void setHtmlStringArray(String[] htmlStringArray) {
         this.htmlStringArray = htmlStringArray;
+    }
+
+    public String[] getHtmlStringArray() {
+        return htmlStringArray;
     }
 
     @SuppressLint("HandlerLeak")
     Handler mainThreadHandler = new Handler() {
         public void handleMessage(@NonNull Message msg) {
             if (msg.what == 1) {
-                htmlStringArray = (String[]) msg.obj;
+                setHtmlStringArray((String[]) msg.obj);
+                System.out.println(getHtmlStringArray().toString());
                 System.out.println("This is the first url i want to use: " + htmlStringArray[0]);
             }
         }
@@ -109,13 +114,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
-        counter +=1;
+        // checking index
         System.out.println("Index: " + String.valueOf(index));
         System.out.println("L: " + String.valueOf(l));
-        //Still working on this.
+        //Still working on this
+        if (this.selectedPictureArray.contains(htmlStringArray[index])){
+            String expr = "You have selected this image already. \n Please select another 1";
+            Toast toast = Toast.makeText(this, expr, Toast.LENGTH_LONG);
+            toast.show();
+        }
+        else
+        {
+            counter +=1;
+            this.selectedPictureArray.add(htmlStringArray[index]);
+        }
+
+
         if (counter == 6){
+            System.out.println(selectedPictureArray);
             System.out.println(counter);
             counter = 0;
+            Intent intent = new Intent(this,DetailActivity.class);
+            intent.putExtra("pictureList",selectedPictureArray);
+            System.out.println(intent.getStringArrayListExtra("pictureList"));
+            startActivity(intent);
         }
     }
 }
