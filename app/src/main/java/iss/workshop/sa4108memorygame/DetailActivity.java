@@ -44,8 +44,10 @@ public class DetailActivity extends AppCompatActivity {
                     seconds = seconds % 60;
 
                     timer_txt.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
+
                 }
             });
+
         }
     }
 

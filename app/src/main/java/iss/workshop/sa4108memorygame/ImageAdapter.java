@@ -2,6 +2,8 @@ package iss.workshop.sa4108memorygame;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class ImageAdapter extends ArrayAdapter {
@@ -35,22 +38,17 @@ public class ImageAdapter extends ArrayAdapter {
 
         ImageView img1 = view.findViewById(R.id.img1);
 
-        int id1 = context.getResources().getIdentifier(imgList.get(pos), "drawable", context.getPackageName());
-        img1.setImageResource(id1);
-        img1.setTag(imgList.get(pos));
-//        System.out.println(imgList.get(pos));
+//        int id1 = context.getResources().getIdentifier(imgList.get(pos), "drawable", context.getPackageName());
+        File imgFile = new File(imgList.get(pos));
+        System.out.println("This is the new photo link:" + imgList.get(pos));
+        if(imgFile.exists()) {
+            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            img1.setImageBitmap(myBitmap);
+            img1.setTag(imgList.get(pos));
+        }
 
-//        view.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                ImageView imageView = view.findViewById(R.id.img1);
-////                String expr = imageView.
-////                System.out.println(expr);
-//
-//                //Need to change test text to a proper id
-////                Toast.makeText(context, "test text", Toast.LENGTH_LONG).show();
-//            }
-//        });
+//        img1.setImageResource(id1);
+//        img1.setTag(imgList.get(pos));
 
         return view;
     }

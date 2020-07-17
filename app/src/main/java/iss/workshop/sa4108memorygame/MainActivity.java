@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -41,17 +43,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ProgressBar mProgressBar;
     private int counter = 0;
     private String[] htmlStringArray;
-    private String[] selectedPictureArray;
+    private ArrayList<String> selectedPictureArray = new ArrayList<String>() ;
 
     public void setHtmlStringArray(String[] htmlStringArray) {
         this.htmlStringArray = htmlStringArray;
+    }
+
+    public String[] getHtmlStringArray() {
+        return htmlStringArray;
     }
 
     @SuppressLint("HandlerLeak")
     Handler mainThreadHandler = new Handler() {
         public void handleMessage(@NonNull Message msg) {
             if (msg.what == 1) {
-                htmlStringArray = (String[]) msg.obj;
+                setHtmlStringArray((String[]) msg.obj);
+                System.out.println(getHtmlStringArray().toString());
                 System.out.println("This is the first url i want to use: " + htmlStringArray[0]);
             }
         }
@@ -63,8 +70,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             "tired", "full", "what", "afraid", "no_way"
     };
 
-    List<String> testlist1 = new ArrayList<String>(Arrays.asList(cartoons));
+    private String[] cartoons2 = new String[20];
 
+
+
+    List<String> testlist1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +86,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mButtonFetch = findViewById(R.id.button_fetch);
         if (mButtonFetch !=null){
             mButtonFetch.setOnClickListener(this);
+        }
+
+        for(int i = 1;i<21; i++){
+            String filePath = "GamePhoto";
+            String fileName = "photo_" + i + ".jpg";
+            File mTargetFile = new File(MainActivity.this.getFilesDir(),filePath + "/" + fileName);
+//            System.out.println("This is the absolute path:" + mTargetFile.getAbsolutePath());
+            cartoons2[i-1] = mTargetFile.getAbsolutePath();
+            System.out.println("This is array file dir for  cartoons2:" + cartoons2[i-1]);
 
         }
+        testlist1 = new ArrayList<String>(Arrays.asList(cartoons2));
+
     }
 
 
@@ -109,13 +130,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
-        counter +=1;
+        // checking index
         System.out.println("Index: " + String.valueOf(index));
         System.out.println("L: " + String.valueOf(l));
-        //Still working on this.
-        if (counter == 6){
-            System.out.println(counter);
-            counter = 0;
+        String[] array = getHtmlStringArray();
+        System.out.println(array);
+
+        //Still working on this
+        if (this.selectedPictureArray.contains(array[index])){
+            String expr = "You have selected this image already. \n Please select another 1";
+            Toast toast = Toast.makeText(this, expr, Toast.LENGTH_LONG);
+            toast.show();
         }
+        else
+        {
+            counter +=1;
+            this.selectedPictureArray.add(array[index]);
+            new SoundPoolPlayer(this).playSoundWithRedId(R.raw.click);
+        }
+
+
+        if (counter == 6){
+            System.out.println(selectedPictureArray);
+            System.out.println(counter);
+            Intent intent = new Intent(this,DetailActivity.class);
+            intent.putExtra("pictureList",selectedPictureArray);
+            System.out.println(intent.getStringArrayListExtra("pictureList"));
+            counter = 0;
+            startActivity(intent);
+        }
+    }
+
+    protected void readFileName(int i, Context context){
+        String filePath = "GamePhoto";
+        String fileName = "photo_" + i + ".jpg";
+        File mTargetFile = new File(context.getFilesDir(),filePath + "/" + fileName);
     }
 }
