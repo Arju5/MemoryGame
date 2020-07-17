@@ -18,6 +18,9 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
+        /*Intent intent = getIntent();
+        int time = intent.getIntExtra("time")*/
+
         start = (Button) findViewById(R.id.start);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
