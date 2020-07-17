@@ -97,6 +97,7 @@ public class URLParserThread extends Thread{
                 //updateProgress(100);
                 bitmap = BitmapFactory.decodeByteArray(imgBytes, 0, imageLen);
                 writeToFile(imgBytes,0);
+                System.out.println("i AM HERE");
                 //updateImage(bitmap);
 
             } catch(Exception e){

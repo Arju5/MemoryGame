@@ -58,17 +58,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void handleMessage(@NonNull Message msg) {
             if (msg.what == 1) {
                 setHtmlStringArray((String[]) msg.obj);
-                System.out.println(getHtmlStringArray().toString());
-                System.out.println("This is the first url i want to use: " + htmlStringArray[0]);
+//                System.out.println(getHtmlStringArray().toString());
+//                System.out.println("This is the first url i want to use: " + htmlStringArray[0]);
             }
         }
     };
 
     //testdata
-    private String[] cartoons = {
-            "hug", "laugh", "peep", "snore", "stop",
-            "tired", "full", "what", "afraid", "no_way"
-    };
+//    private String[] cartoons = {
+//            "hug", "laugh", "peep", "snore", "stop",
+//            "tired", "full", "what", "afraid", "no_way"
+//    };
 
     private String[] cartoons2 = new String[20];
 
@@ -158,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println(intent.getStringArrayListExtra("pictureList"));
             counter = 0;
             startActivity(intent);
+
         }
     }
 
