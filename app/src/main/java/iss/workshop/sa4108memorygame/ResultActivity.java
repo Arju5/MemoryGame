@@ -12,19 +12,23 @@ public class ResultActivity extends AppCompatActivity {
 
     private Button start;
     private Button scoreboard;
+    private Button submit;
+    private String name;
+    private int playerScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-        start = (Button) findViewById(R.id.start);
-        start.setOnClickListener(new View.OnClickListener() {
+        submit = (Button) findViewById(R.id.submit);
+        submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openMainActivity();
+                submitScore();
             }
         });
+
 
         scoreboard = (Button) findViewById(R.id.scoreboard);
         scoreboard.setOnClickListener(new View.OnClickListener() {
@@ -34,17 +38,31 @@ public class ResultActivity extends AppCompatActivity {
             }
         });
 
+        start = (Button) findViewById(R.id.start);
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openMainActivity();
+            }
+        });
+
+
     }
 
     public void openScoreboard() {
         Intent scoreIntent = new Intent(ResultActivity.this, ScoreActivity.class);
         scoreIntent.putExtra("name", "Team 3");
         startActivity(scoreIntent);
-
     }
 
     public void openMainActivity() {
         Intent mainIntent = new Intent(ResultActivity.this, MainActivity.class);
         startActivity(mainIntent);
     }
+
+    public void submitScore() {
+        Intent mainIntent = new Intent(ResultActivity.this, ScoreActivity.class);
+        startActivity(mainIntent);
+    }
+
 }
