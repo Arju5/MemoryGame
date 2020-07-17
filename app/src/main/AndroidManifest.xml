@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
 <!--        <service android:name=".BackgroundSoundService">-->
 <!--            <intent-filter>  -->
 <!--                <action android:name="com.angel.Android.MUSIC"/>-->
@@ -19,36 +20,38 @@
 <!--        </service>-->
 
         <activity android:name=".TimerTesting">
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
 
         </activity>
 
         <receiver
             android:name=".MyBroadcastReceiver"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"></receiver>
 
         <activity android:name=".MainActivity">
-            <!--<intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
 
         <activity android:name=".DetailActivity">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity android:name=".StartPage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <activity android:name=".StartPage">
-            <!--intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
 
         </activity>
 
@@ -61,6 +64,6 @@
         </activity>
 
 
-    </application>
+</application>
 
 </manifest>
