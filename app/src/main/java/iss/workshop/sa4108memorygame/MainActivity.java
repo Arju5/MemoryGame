@@ -18,6 +18,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
@@ -35,15 +36,22 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
-    Button mButtonFetch;
-    EditText mEditTextUrl;
-    ProgressBar mProgressBar;
+    private Button mButtonFetch;
+    private EditText mEditTextUrl;
+    private ProgressBar mProgressBar;
+    private int counter = 0;
+    private String[] htmlStringArray;
+    private String[] selectedPictureArray;
+
+    public void setHtmlStringArray(String[] htmlStringArray) {
+        this.htmlStringArray = htmlStringArray;
+    }
 
     @SuppressLint("HandlerLeak")
     Handler mainThreadHandler = new Handler() {
         public void handleMessage(@NonNull Message msg) {
             if (msg.what == 1) {
-                String[] htmlStringArray = (String[]) msg.obj;
+                htmlStringArray = (String[]) msg.obj;
                 System.out.println("This is the first url i want to use: " + htmlStringArray[0]);
             }
         }
@@ -87,13 +95,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 ImageAdapter imgAdapter =new ImageAdapter(this,R.layout.image_row, (ArrayList<String>) this.testlist1);
                 GridView gridView1 = findViewById(R.id.gridView1);
-                gridView1.setEnabled(false);
                 gridView1.setNumColumns(4);
                 if (gridView1 != null){
                     gridView1.setAdapter(imgAdapter);
                     //this is not working normally for now
                     gridView1.setOnItemClickListener(this);
-
                 }
                 break;
 
@@ -102,9 +108,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+    public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
+        counter +=1;
+        System.out.println("Index: " + String.valueOf(index));
+        System.out.println("L: " + String.valueOf(l));
+        //Still working on this.
+        if (counter == 6){
+            System.out.println(counter);
+            counter = 0;
+        }
     }
-
-
 }
