@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -74,6 +75,7 @@ public class DetailActivity extends AppCompatActivity {
     boolean isFlipped1 = false;
     boolean isFlipped2 = false;
     boolean isMatched = false;
+    String countMsg;
 
 //    final String[] selectedImg = new String[]{
 //         "hug", "laugh", "peep", "snore", "stop","tired"};
@@ -143,21 +145,41 @@ public class DetailActivity extends AppCompatActivity {
                                     secondview = null;
                                     isBusy = false;
                                 }
-                            },5000);
+                            },1000);
                         }
-                        else{
-                            secondview = (ImageView)view;
-                            flip(secondview,i,"second");
-                            //isMatched = true;
+                        else {
+                            secondview = (ImageView) view;
+                            flip(secondview, i, "second");
 
                             firstview.setEnabled(false);
                             secondview.setEnabled(false);
+                            //increasing count of matches
+                            //isMatched = true;
+                            countPair++;
+                            countMsg = countPair+"/6 Matches";
+                            TextView count = findViewById(R.id.NoOfMatches);
+                            if(count!=null) {
+                                count.setText(countMsg);
+                            }
+                            if(countPair == 6){
+                                isMatched = true;
+
+                                timer.cancel();
+                                timer.purge();
+
+                                //b.setText("start");
+                                Intent intent = new Intent(DetailActivity.this,MainActivity.class);
+                                startActivity(intent);
+
+                                Toast.makeText(getApplicationContext(),"Congratulations!!! You win.",Toast.LENGTH_LONG).show();
+                            }
 
                             firstview = null;
                             secondview = null;
-                            isFlipped1  = false;
+                            isFlipped1 = false;
                             isFlipped2 = false;
                             isBusy = false;
+
                         }
                     }
                 }
