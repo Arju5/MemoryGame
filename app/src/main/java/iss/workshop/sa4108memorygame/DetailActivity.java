@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -210,6 +211,8 @@ public class DetailActivity extends AppCompatActivity
             }
         }
     }
+
+
 
     @Override
     protected void onPause() {

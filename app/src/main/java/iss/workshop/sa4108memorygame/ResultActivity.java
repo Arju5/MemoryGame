@@ -47,4 +47,12 @@ public class ResultActivity extends AppCompatActivity {
         Intent mainIntent = new Intent(ResultActivity.this, MainActivity.class);
         startActivity(mainIntent);
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(ResultActivity.this,StartPage.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
 }
