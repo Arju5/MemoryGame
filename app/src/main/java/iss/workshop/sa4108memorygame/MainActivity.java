@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -68,8 +70,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             "tired", "full", "what", "afraid", "no_way"
     };
 
-    List<String> testlist1 = new ArrayList<String>(Arrays.asList(cartoons));
+    private String[] cartoons2 = new String[20];
 
+
+
+    List<String> testlist1 = new ArrayList<String>(Arrays.asList(cartoons));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +86,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mButtonFetch = findViewById(R.id.button_fetch);
         if (mButtonFetch !=null){
             mButtonFetch.setOnClickListener(this);
-
         }
+
+        for(int i = 1;i<21; i++){
+            String fileName = "photo_" + i + ".jpg";
+            cartoons2[0] = fileName;
+        }
+        System.out.println(cartoons2);
+
     }
 
 
@@ -139,5 +150,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println(intent.getStringArrayListExtra("pictureList"));
             startActivity(intent);
         }
+    }
+
+    protected void readFileName(int i, Context context){
+        String filePath = "GamePhoto";
+        String fileName = "photo_" + i + ".jpg";
+        File mTargetFile = new File(context.getFilesDir(),filePath + "/" + fileName);
+
     }
 }
