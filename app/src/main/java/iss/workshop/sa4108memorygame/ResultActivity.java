@@ -33,12 +33,12 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-       /* Intent intent = getIntent();
-        int time = intent.getIntExtra("time");*/
+        Intent intent = getIntent();
+        String time = intent.getStringExtra("timer");
 
         nameInput = (EditText) findViewById(R.id.nameInput);
-        playerScore = (TextView) findViewById(R.id.playerScore);
-
+/*        playerScore = (TextView) findViewById(R.id.playerScore);
+        playerScore.setText(time);*/
         submit = (Button) findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +83,7 @@ public class ResultActivity extends AppCompatActivity {
         String filePath = "ScoreBoard";
         String fileName = "ScoreBoard.txt";
         File mTargetFile = new File(this.getFilesDir(), filePath + "/" +fileName);
-        String fileContent = "User name1" + "," + "time1";
+        String fileContent = nameInput.getText().toString() + "," + "207"+"\n";
 
         try{
 
@@ -92,7 +92,7 @@ public class ResultActivity extends AppCompatActivity {
             if(!parent.exists() && !parent.mkdirs()) {
                 throw new IllegalStateException("Couldn't create directory: " + parent);
             }
-            FileOutputStream fos = new FileOutputStream(mTargetFile);
+            FileOutputStream fos = new FileOutputStream(mTargetFile, true);
             fos.write(fileContent.getBytes());
             fos.close();
         } catch (IOException e) {

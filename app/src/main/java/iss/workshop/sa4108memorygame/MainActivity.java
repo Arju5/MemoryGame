@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//      startActivity(new Intent(MainActivity.this, ResultActivity.class));
+     startActivity(new Intent(MainActivity.this, ResultActivity.class));
 
         mButtonFetch = findViewById(R.id.button_fetch);
         if (mButtonFetch !=null){
