@@ -13,7 +13,6 @@ public class URLParserThread extends Thread{
     private String url;
     private Context context;
     private Handler handler;
-    private Handler handler2;
 
 
 
@@ -37,7 +36,7 @@ public class URLParserThread extends Thread{
             String[] htmlStringArray = htmlString.split("\n");
             System.out.println(Arrays.toString(htmlStringArray));
 
-//            Looper mainThreadLooper = Looper.getMainLooper(); // --> Looper of the main/UI thread
+            Looper mainThreadLooper = Looper.getMainLooper(); // --> Looper of the main/UI thread
             Message messageToSendToMainThread = Message.obtain(); // --> Create a message to send to UI thread
             messageToSendToMainThread.obj = htmlStringArray; // htmlString -> actual msg value
             messageToSendToMainThread.what = 1;
