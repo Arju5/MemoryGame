@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -36,7 +37,6 @@ public class DetailActivity extends AppCompatActivity {
     //private int[] imageGraphic = new int[numOfImages/2];
     private int[] imageGraphicLocation = new int[numOfImages];
 
-
     class DetailTask extends TimerTask {
 
         @Override
@@ -66,19 +66,16 @@ public class DetailActivity extends AppCompatActivity {
             R.drawable.snore, R.drawable.stop, R.drawable.tired
     };
 
-
     int firstClick = 0;
     int secondClick = 0;
     ImageView firstview = null;
     ImageView secondview = null;
 
     boolean isBusy = false;
-
     boolean isFlipped1 = false;
     boolean isFlipped2 = false;
     boolean isMatched = false;
     String countMsg;
-
 
 //    final String[] selectedImg = new String[]{
 //         "hug", "laugh", "peep", "snore", "stop","tired"};
@@ -99,9 +96,9 @@ public class DetailActivity extends AppCompatActivity {
             timer = new Timer();
             timer.schedule(new DetailTask(), 0, 500);
             //h2.postDelayed(run, 0);
-        } /*else {
+        } else {
 
-        }*/
+        }
         GridView gridView = (GridView) findViewById(R.id.gridView2);
         ImageAdapter2 adapter = new ImageAdapter2(this);
         //shuffleImage();
@@ -110,81 +107,93 @@ public class DetailActivity extends AppCompatActivity {
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    ((ImageView)view).setEnabled(false);
-                    if(isBusy){
-                        return;
-                    }
-                    if(isMatched){
-                        return;
-                    }
-                    if(firstview == null){
-                        firstClick = selectedImg[pos[i]];
 
-                        firstview = (ImageView)view;
-                        firstview.setEnabled(false);
-                        flip(firstview,i,"first");
+                    if(((ImageView)view).isEnabled() == true){
+                        if(isBusy){
+                            return;
+                        }
+                        if(isMatched){
+                            return;
+                        }
+                        if(firstview == null){
+                            firstClick = selectedImg[pos[i]];
 
-                        return;
-                    }
+                            firstview = (ImageView)view;
+                            //firstview.setEnabled(false);
+                            flip(firstview,i,"first");
+
+                            return;
+                        }
                     /*if(firstview.getId() == view.getId()){
                         return;
                     }*/
-                    System.out.println("FirstViewID : " + firstClick);
-                    System.out.println("SecondViewID : " + selectedImg[pos[i]]);
+                        System.out.println("FirstViewID : " + firstClick);
+                        System.out.println("SecondViewID : " + selectedImg[pos[i]]);
 
-                    if(firstClick != selectedImg[pos[i]]){
-                        secondview = (ImageView) view;
-                        flip(secondview,i,"second");
-                        isBusy = true;
+                        if(firstClick != selectedImg[pos[i]]){
+                            secondview = (ImageView) view;
+                            flip(secondview,i,"second");
+                            isBusy = true;
 
-                        final Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                flip(secondview,0,"second");
-                                flip(firstview,0,"first");
-                                firstview = null;
-                                secondview = null;
-                                isBusy = false;
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    flip(secondview,0,"second");
+                                    flip(firstview,0,"first");
+                                    firstview = null;
+                                    secondview = null;
+                                    isBusy = false;
+                                }
+                            },1000);
+                        }
+                        else {
+                            secondview = (ImageView) view;
+                            flip(secondview, i, "second");
+
+                            firstview.setEnabled(false);
+                            secondview.setEnabled(false);
+                            //increasing count of matches
+                            //isMatched = true;
+                            countPair++;
+                            countMsg = countPair+"/6 Matches";
+                            TextView count = findViewById(R.id.NoOfMatches);
+                            if(count!=null) {
+                                count.setText(countMsg);
                             }
-                        },1000);
-                    }
-                    else {
-                        secondview = (ImageView) view;
-                        flip(secondview, i, "second");
+                            if(countPair == 6){
+                                isMatched = true;
 
-                        firstview.setEnabled(false);
-                        secondview.setEnabled(false);
-                        //increasing count of matches
-                        //isMatched = true;
-                        countPair++;
-                        countMsg = countPair+"/6 Matches";
-                        TextView count = findViewById(R.id.NoOfMatches);
-                        if(count!=null) {
-                            count.setText(countMsg);
+                                timer.cancel();
+                                timer.purge();
+
+                                //b.setText("start");
+                                Intent intent = new Intent(DetailActivity.this,MainActivity.class);
+                                startActivity(intent);
+
+                                Toast.makeText(getApplicationContext(),"Congratulations!!! You win.",Toast.LENGTH_LONG).show();
+                            }
+
+                            firstview = null;
+                            secondview = null;
+                            isFlipped1 = false;
+                            isFlipped2 = false;
+                            isBusy = false;
+
                         }
-                        if(countPair == 6){
-                            isMatched = true;
-                            Toast.makeText(getApplicationContext(),"Congratulations!!! You win.",Toast.LENGTH_LONG).show();
-                        }
-
-                        firstview = null;
-                        secondview = null;
-                        isFlipped1 = false;
-                        isFlipped2 = false;
-                        isBusy = false;
-
                     }
                 }
             });
         }
     }
 
+
+
     public void flip(ImageView view,int id, String level){
         if(isMatched){
             return;
         }
-        if(level=="first"){
+        if(level == "first"){
             if(isFlipped1){
                 view.setImageResource(R.drawable.question);
                 isFlipped1 = false;
@@ -194,7 +203,7 @@ public class DetailActivity extends AppCompatActivity {
                 isFlipped1 = true;
             }
         }
-        if(level=="second"){
+        if(level == "second"){
             if(isFlipped2){
                 view.setImageResource(R.drawable.question);
                 isFlipped2 = false;
@@ -218,7 +227,6 @@ public class DetailActivity extends AppCompatActivity {
             int swapIndex = rand.nextInt(16);
             imageGraphicLocation[i] = imageGraphicLocation[swapIndex];
             imageGraphicLocation[swapIndex] = temp;
-
         }
     }
 

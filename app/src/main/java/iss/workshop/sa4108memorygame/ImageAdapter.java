@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -31,26 +32,27 @@ public class ImageAdapter extends ArrayAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(
                 Activity.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.image_row, null);
-        view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        int id = view.getId();
-                        System.out.println(id);
-                        //Need to change test text to a proper id
-                        Toast.makeText(context, "test text", Toast.LENGTH_LONG).show();
 
-            }
-        });
         ImageView img1 = view.findViewById(R.id.img1);
-
 
         int id1 = context.getResources().getIdentifier(imgList.get(pos), "drawable", context.getPackageName());
         img1.setImageResource(id1);
-//        img1.setTag(imgList.get(id1));
+        img1.setTag(imgList.get(pos));
+//        System.out.println(imgList.get(pos));
 
+//        view.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                ImageView imageView = view.findViewById(R.id.img1);
+////                String expr = imageView.
+////                System.out.println(expr);
+//
+//                //Need to change test text to a proper id
+////                Toast.makeText(context, "test text", Toast.LENGTH_LONG).show();
+//            }
+//        });
 
         return view;
-
     }
 
 }
