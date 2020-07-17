@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -27,7 +28,8 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity
+        implements AdapterView.OnItemClickListener {
 
     class DetailTask extends TimerTask {
 
@@ -93,12 +95,10 @@ public class DetailActivity extends AppCompatActivity {
             start_time = System.currentTimeMillis();
             timer = new Timer();
             timer.schedule(new DetailTask(), 0, 500);
-        } else {
-
         }
 
         //for background music
-        player = MediaPlayer.create(this,R.raw.over_the_rainbow);
+        player = MediaPlayer.create(this, R.raw.over_the_rainbow);
         player.start();
         player.setLooping(true);
 
@@ -111,39 +111,13 @@ public class DetailActivity extends AppCompatActivity {
         }).start();
         //////////////////////////
 
-        /*dict.put(0,R.drawable.hug);
-        dict.put(1,R.drawable.laugh);
-        dict.put(2,R.drawable.peep);
-        dict.put(3,R.drawable.snore);
-        dict.put(4,R.drawable.stop);
-        dict.put(5,R.drawable.tired);
-        dict.put(6,R.drawable.hug);
-        dict.put(7,R.drawable.laugh);
-        dict.put(8,R.drawable.peep);
-        dict.put(9,R.drawable.snore);
-        dict.put(10,R.drawable.stop);
-        dict.put(11,R.drawable.tired);*/
-
-        for(int i = 0 ; i < 2;i++){
-            for(int j = 0;j<selectedImg.length;j++){
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < selectedImg.length; j++) {
                 ll.add(selectedImg[j]);
             }
         }
 
-        /*ll.add(R.drawable.hug);
-        ll.add(R.drawable.laugh);
-        ll.add(R.drawable.peep);
-        ll.add(R.drawable.snore);
-        ll.add(R.drawable.stop);
-        ll.add(R.drawable.tired);
-        ll.add(R.drawable.hug);
-        ll.add(R.drawable.laugh);
-        ll.add(R.drawable.peep);
-        ll.add(R.drawable.snore);
-        ll.add(R.drawable.stop);
-        ll.add(R.drawable.tired);*/
-
-        for(int i=0;i<ll.size();i++){
+        for (int i = 0; i < ll.size(); i++) {
             System.out.println("List : " + ll.get(i));
         }
 
@@ -156,82 +130,84 @@ public class DetailActivity extends AppCompatActivity {
 
         if (gridView != null) {
             gridView.setAdapter(adapter);
-            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            gridView.setOnItemClickListener(this);
+        }
+    }
 
-                    if (((ImageView) view).isEnabled() == true) {
-                        if (isBusy) {
-                            return;
-                        }
-                        if (isMatched) {
-                            return;
-                        }
-                        if (firstview == null) {
-                            firstClick = ll.get(i);
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                            firstview = (ImageView) view;
-                            flip(firstview, i, "first");
+        if (((ImageView) view).isEnabled() == true) {
+            if (isBusy) {
+                return;
+            }
+            if (isMatched) {
+                return;
+            }
+            if (firstview == null) {
+                firstClick = ll.get(i);
 
-                            return;
-                        }
+                firstview = (ImageView) view;
+                flip(firstview, i, "first");
 
-                        System.out.println("FirstViewID : " + firstClick);
-                        System.out.println("SecondViewID : " + ll.get(i));
+                return;
+            }
 
-                        if (firstClick != ll.get(i)) {
-                            secondview = (ImageView) view;
-                            flip(secondview, i, "second");
-                            isBusy = true;
+            System.out.println("FirstViewID : " + firstClick);
+            System.out.println("SecondViewID : " + ll.get(i));
 
-                            final Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    flip(secondview, 0, "second");
-                                    flip(firstview, 0, "first");
-                                    firstview = null;
-                                    secondview = null;
-                                    isBusy = false;
-                                }
-                            }, 1000);
-                        } else {
-                            secondview = (ImageView) view;
-                            flip(secondview, i, "second");
+            if (firstClick != ll.get(i)) {
+                secondview = (ImageView) view;
+                flip(secondview, i, "second");
+                isBusy = true;
 
-                            firstview.setEnabled(false);
-                            secondview.setEnabled(false);
-                            //increasing count of matches
-                            //isMatched = true;
-                            countPair++;
-                            countMsg = countPair + "/6 Matches";
-                            TextView count = findViewById(R.id.NoOfMatches);
-                            if (count != null) {
-                                count.setText(countMsg);
-                            }
-                            if (countPair == 6) {
-                                isMatched = true;
-
-                                timer.cancel();
-                                timer.purge();
-
-                                //b.setText("start");
-                                Intent intent = new Intent(DetailActivity.this, MainActivity.class);
-                                startActivity(intent);
-
-                                Toast.makeText(getApplicationContext(), "Congratulations!!! You win.", Toast.LENGTH_LONG).show();
-                            }
-
-                            firstview = null;
-                            secondview = null;
-                            isFlipped1 = false;
-                            isFlipped2 = false;
-                            isBusy = false;
-
-                        }
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        flip(secondview, 0, "second");
+                        flip(firstview, 0, "first");
+                        firstview = null;
+                        secondview = null;
+                        isBusy = false;
                     }
+                }, 1000);
+            } else {
+                secondview = (ImageView) view;
+                flip(secondview, i, "second");
+
+                firstview.setEnabled(false);
+                secondview.setEnabled(false);
+                //increasing count of matches
+                //isMatched = true;
+                countPair++;
+                countMsg = countPair + "/6 Matches";
+                TextView count = findViewById(R.id.NoOfMatches);
+                if (count != null) {
+                    count.setText(countMsg);
                 }
-            });
+                if (countPair == 6) {
+                    isMatched = true;
+
+                    timer.cancel();
+                    timer.purge();
+
+                    //b.setText("start");
+                    Intent intent = new Intent(DetailActivity.this, ResultActivity.class);
+                    intent.putExtra("timer", timer_txt.getText().toString());
+                    startActivity(intent);
+
+                    Toast.makeText(getApplicationContext(), "Congratulations!!! You win.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), timer_txt.getText().toString(), Toast.LENGTH_LONG).show();
+                }
+
+                firstview = null;
+                secondview = null;
+                isFlipped1 = false;
+                isFlipped2 = false;
+                isBusy = false;
+
+            }
         }
     }
 
