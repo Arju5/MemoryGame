@@ -11,6 +11,10 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class ScoreActivity extends AppCompatActivity {
 
     TextView rank, name, time;
@@ -24,6 +28,25 @@ public class ScoreActivity extends AppCompatActivity {
         /*TextView playerName = (TextView) findViewById(R.id.playerName);
         TextView playerScore = (TextView) findViewById(R.id.playerScore);
         float score = intent.getFloatExtra("score", 10.0f);*/
+
+ /*       String filePath = "ScoreBoard";
+        String fileName = "ScoreBoard.txt";
+        File mTargetFile = new File(this.getFilesDir(), filePath + "/" +fileName);
+        String fileContent = "User name1" + "," + "time1";
+        try{
+            File parent = mTargetFile.getParentFile();
+            if(!parent.exists() && !parent.mkdirs()) {
+                throw new IllegalStateException("Couldn't create directory: " + parent);
+            }
+            FileOutputStream fos = new FileOutputStream(mTargetFile);
+            fos.write(fileContent.getBytes());
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
+
+
         TableLayout table = (TableLayout) findViewById(R.id.table);
         for(int i = 1; i < 6 ; i ++) {
             TableRow tableRow = new TableRow(this);
