@@ -10,7 +10,7 @@
         android:id="@+id/NoOfMatches"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="3/6 Matches"
+        android:text="0/6 Matches"
         android:textSize="25sp"
         android:layout_gravity="left"
         android:gravity="left|center"
