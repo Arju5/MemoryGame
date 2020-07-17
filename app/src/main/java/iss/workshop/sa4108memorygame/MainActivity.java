@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             counter +=1;
             this.selectedPictureArray.add(htmlStringArray[index]);
+            new SoundPoolPlayer(this).playSoundWithRedId(R.raw.click);
         }
 
 
@@ -138,6 +139,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intent.putExtra("pictureList",selectedPictureArray);
             System.out.println(intent.getStringArrayListExtra("pictureList"));
             startActivity(intent);
+
+
         }
     }
 }
