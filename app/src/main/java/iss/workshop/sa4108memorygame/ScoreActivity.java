@@ -44,25 +44,19 @@ public class ScoreActivity extends AppCompatActivity {
 
         File mTargetFile = new File(this.getFilesDir(), filePath + "/" +fileName);
 
-       /* try{
+     /*   try{
             File parent = mTargetFile.getParentFile();
             if(!parent.exists() && !parent.mkdirs()) {
                 throw new IllegalStateException("Couldn't create directory: " + parent);
             }
             FileOutputStream fos = new FileOutputStream(mTargetFile);
-            String fileContent = "KK,205\n" +
-                    "Yamone,202\n" +
-                    "Thinn,204\n" +
-                    "Rohan,205\n" +
-                    "Yanbin,206\n" +
-                    "Sheryl,201\n" +
-                    "Xinqui,206\n" +
-                    "Arjun,209\n";
+            String fileContent = "Arjun,00:50\n";
             fos.write(fileContent.getBytes());
             fos.close();
         } catch (IOException e) {
             e.printStackTrace();
         }*/
+
        TableLayout table = (TableLayout) findViewById(R.id.table);
        try {
             FileInputStream fis = new FileInputStream(mTargetFile);
@@ -71,7 +65,9 @@ public class ScoreActivity extends AppCompatActivity {
             String strLine;
             while ((strLine = br.readLine()) != null) {
                 String[] tokens = strLine.split(",");
-                users.add(new User(tokens[0], Integer.valueOf(tokens[1])));
+                String[] time = tokens[1].split(":");
+
+                users.add(new User(tokens[0], Integer.valueOf(time[0])*60 + Integer.valueOf(time[1])));
             }
             in.close();
         } catch (IOException e) {
@@ -105,7 +101,7 @@ public class ScoreActivity extends AppCompatActivity {
             name.setLayoutParams(parameters2);
             name.setGravity(Gravity.CENTER);
             time = new TextView(this);
-            time.setText(String.valueOf(user.getTime()));
+            time.setText(String.valueOf(user.getTime()/60)+"' "+String.valueOf(user.getTime()%60));
             time.setTextSize(20);
             time.setLayoutParams(parameters2);
             time.setGravity(Gravity.CENTER);
