@@ -63,7 +63,7 @@ public class ScoreActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }*/
-        TableLayout table = (TableLayout) findViewById(R.id.table);
+       TableLayout table = (TableLayout) findViewById(R.id.table);
        try {
             FileInputStream fis = new FileInputStream(mTargetFile);
             DataInputStream in = new DataInputStream(fis);
@@ -76,6 +76,8 @@ public class ScoreActivity extends AppCompatActivity {
             in.close();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (NumberFormatException e){
+           e.printStackTrace();
         }
 
        // Sorting the users in the list based on the time in seconds
