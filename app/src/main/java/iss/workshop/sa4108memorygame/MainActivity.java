@@ -128,8 +128,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // checking index
         System.out.println("Index: " + String.valueOf(index));
         System.out.println("L: " + String.valueOf(l));
+        String[] array = getHtmlStringArray();
+        System.out.println(array);
+
         //Still working on this
-        if (this.selectedPictureArray.contains(htmlStringArray[index])){
+        if (this.selectedPictureArray.contains(array[index])){
             String expr = "You have selected this image already. \n Please select another 1";
             Toast toast = Toast.makeText(this, expr, Toast.LENGTH_LONG);
             toast.show();
@@ -137,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else
         {
             counter +=1;
-            this.selectedPictureArray.add(htmlStringArray[index]);
+            this.selectedPictureArray.add(array[index]);
             new SoundPoolPlayer(this).playSoundWithRedId(R.raw.click);
         }
 
