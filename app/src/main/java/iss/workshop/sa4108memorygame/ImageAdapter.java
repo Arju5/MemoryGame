@@ -50,18 +50,6 @@ public class ImageAdapter extends ArrayAdapter {
 //        img1.setImageResource(id1);
 //        img1.setTag(imgList.get(pos));
 
-//        view.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                ImageView imageView = view.findViewById(R.id.img1);
-////                String expr = imageView.
-////                System.out.println(expr);
-//
-//                //Need to change test text to a proper id
-////                Toast.makeText(context, "test text", Toast.LENGTH_LONG).show();
-//            }
-//        });
-
         return view;
     }
 
