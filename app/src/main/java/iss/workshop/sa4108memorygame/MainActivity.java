@@ -78,11 +78,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @SuppressLint("HandlerLeak")
     Handler mainThreadHandler = new Handler() {
         public void handleMessage(@NonNull Message msg) {
-//            if (msg.what == 1) {
-//                setStringPictureList((ArrayList<String>) msg.obj);
-//            }
-//            else if (msg.what == PROGRESS_UPDATE){
-            if (msg.what == PROGRESS_UPDATE){
+            if (msg.what == 1) {
+                setStringPictureList((ArrayList<String>) msg.obj);
+            }
+            else if (msg.what == PROGRESS_UPDATE){
+//            if (msg.what == PROGRESS_UPDATE){
 
                 setProgressBarVisible(true);
                 mProgressBar.setVisibility(View.VISIBLE);

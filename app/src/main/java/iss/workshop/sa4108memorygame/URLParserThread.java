@@ -75,10 +75,10 @@ public class URLParserThread extends Thread{
 
 
 //            Looper mainThreadLooper = Looper.getMainLooper(); // --> Looper of the main/UI thread
-//            Message messageToSendToMainThread = Message.obtain(); // --> Create a message to send to UI thread
-//            messageToSendToMainThread.obj = stringPictureArray; // htmlString -> actual msg value
-//            messageToSendToMainThread.what = 1;
-//            handler.sendMessage(messageToSendToMainThread);
+            Message messageToSendToMainThread = Message.obtain(); // --> Create a message to send to UI thread
+            messageToSendToMainThread.obj = stringPictureArray; // htmlString -> actual msg value
+            messageToSendToMainThread.what = 1;
+            handler.sendMessage(messageToSendToMainThread);
             Looper.loop();
 
         } catch (IOException e) {
