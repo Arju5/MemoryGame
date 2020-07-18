@@ -39,6 +39,7 @@ public class ImageAdapter extends ArrayAdapter {
         ImageView img1 = view.findViewById(R.id.img1);
 //        img1.setLayoutParams(new GridView.LayoutParams(350,350));
         img1.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        img1.setMinimumHeight(100);
 
 //        int id1 = context.getResources().getIdentifier(imgList.get(pos), "drawable", context.getPackageName());
         File imgFile = new File(imgList.get(pos));
