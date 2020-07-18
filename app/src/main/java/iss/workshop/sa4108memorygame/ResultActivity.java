@@ -76,6 +76,13 @@ public class ResultActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+    Intent intent = new Intent( ResultActivity.this, StartPage.class);
+    startActivity(intent);
+    finish();
+    }
+
     public void openScoreboard() {
         Intent scoreIntent = new Intent(ResultActivity.this, ScoreActivity.class);
         scoreIntent.putExtra("name", "Team 3");
@@ -108,7 +115,7 @@ public class ResultActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
+        nameInput.setEnabled(false);
         Intent mainIntent = new Intent(ResultActivity.this, ScoreActivity.class);
 
         startActivity(mainIntent);

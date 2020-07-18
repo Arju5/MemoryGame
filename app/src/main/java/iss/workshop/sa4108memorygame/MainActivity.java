@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mProgressBar.setVisibility(View.VISIBLE);
                 mProgressBar.setProgress(msg.arg1);
                 mDownloadText.setVisibility(View.VISIBLE);
-                mDownloadText.setText("You have selected 6 pictures");
 
                 Toast.makeText(MainActivity.this,
                         msg.arg1 + "%", Toast.LENGTH_SHORT).show();
@@ -98,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 mDownloadText.setVisibility(View.VISIBLE);
                 mDownloadText.setText("You have selected 7 pictures");
+                //mDownloadText.setText("You have selected 6 pictures");
 
                 Toast.makeText(MainActivity.this,
                         "I am done downloading!", Toast.LENGTH_SHORT).show();
@@ -194,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //Still working on this
         if (this.selectedPictureArray.contains(array[index])){
+            mDownloadText.setText("You have selected "+ String.valueOf(counter) + (counter==1? " picture":" pictures"));
             String expr = "You have selected this image already. \n Please select another 1";
             Toast toast = Toast.makeText(this, expr, Toast.LENGTH_LONG);
             toast.show();
@@ -203,11 +204,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             counter +=1;
             this.selectedPictureArray.add(array[index]);
             new SoundPoolPlayer(this).playSoundWithRedId(R.raw.click);
+            mDownloadText.setText("You have selected "+ String.valueOf(counter) + (counter==1? " picture":" pictures"));
+
         }
 
         if (counter == 6){
             System.out.println("These are the urls selected for next activity:" + selectedPictureArray);
             System.out.println(counter);
+            mDownloadText.setText("You have selected "+ String.valueOf(counter) + (counter==1? " picture":" pictures"));
             Intent intent = new Intent(this,DetailActivity.class);
             intent.putExtra("pictureList",selectedPictureArray);
             System.out.println(intent.getStringArrayListExtra("pictureList"));
