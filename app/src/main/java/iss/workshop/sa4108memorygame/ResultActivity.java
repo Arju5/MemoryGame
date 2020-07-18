@@ -124,6 +124,7 @@ public class ResultActivity extends AppCompatActivity {
         }
 
         nameInput.setEnabled(false);
+        submit.setClickable(false);
         Intent mainIntent = new Intent(ResultActivity.this, ScoreActivity.class);
 
         startActivity(mainIntent);
