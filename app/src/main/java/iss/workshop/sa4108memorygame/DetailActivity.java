@@ -2,6 +2,7 @@ package iss.workshop.sa4108memorygame;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -39,7 +40,16 @@ public class DetailActivity extends AppCompatActivity
                     seconds = seconds % 60;
 
                     //timer_txt.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
-                    timer_txt.setText(String.format("%02d:%02d", minutes, seconds));
+                    if (minutes != 2) {
+                        timer_txt.setText(String.format("%02d:%02d", minutes, seconds));
+                    } else {
+                        timer.cancel();
+                        timer.purge();
+                        Toast.makeText(getApplicationContext(), "Time's up", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), StartPage.class);
+                        startActivity(intent);
+                    }
+
 
                 }
             });
@@ -84,7 +94,7 @@ public class DetailActivity extends AppCompatActivity
         //readFromFile();
         Intent intent = getIntent();
         pictureList = intent.getStringArrayListExtra("pictureList");
-        System.out.println("pictureList from main activity::: "+pictureList);
+        System.out.println("pictureList from main activity::: " + pictureList);
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < pictureList.size(); j++) {
                 ll.add(pictureList.get(j));
@@ -103,14 +113,6 @@ public class DetailActivity extends AppCompatActivity
         player = MediaPlayer.create(this, R.raw.over_the_rainbow);
         player.start();
         player.setLooping(true);
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (true)
-//                    System.out.println("Running...");
-//            }
-//        }).start();
 
         //shuffle all the images
         Collections.shuffle(ll);
@@ -167,7 +169,7 @@ public class DetailActivity extends AppCompatActivity
                 //increasing count of matches
                 //isMatched = true;
                 countPair++;
-                countMsg = countPair + "/"+pictureList.size()+" Matches";
+                countMsg = countPair + "/" + pictureList.size() + " Matches";
                 TextView count = findViewById(R.id.NoOfMatches);
                 if (count != null) {
                     count.setText(countMsg);
