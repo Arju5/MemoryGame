@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.view.View;
+import android.widget.GridView;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -18,6 +20,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class URLParserThread extends Thread{
     private String url;
@@ -25,12 +28,23 @@ public class URLParserThread extends Thread{
     private Handler handler;
     public int PROGRESS_UPDATE = 1;
     public int DOWNLOAD_COMPLETED = 2;
+    private List<String> stringList;
+    private View view;
 
     public URLParserThread(String url,Context context, Handler handler){
         super();
         this.url = url;
         this.context = context;
         this.handler = handler;
+    }
+
+    public URLParserThread(String url,Context context, Handler handler, List<String> stringList, View view){
+        super();
+        this.url = url;
+        this.context = context;
+        this.handler = handler;
+        this.stringList = stringList;
+        this.view = view;
     }
 
     @Override
@@ -48,7 +62,8 @@ public class URLParserThread extends Thread{
 
             downloadImage("https://cdn.stocksnap.io/img-thumbs/280h/woman-car_WKVLDV0K0G.jpg");
 
-            Looper mainThreadLooper = Looper.getMainLooper(); // --> Looper of the main/UI thread
+
+//            Looper mainThreadLooper = Looper.getMainLooper(); // --> Looper of the main/UI thread
             Message messageToSendToMainThread = Message.obtain(); // --> Create a message to send to UI thread
             messageToSendToMainThread.obj = htmlStringArray; // htmlString -> actual msg value
             messageToSendToMainThread.what = 1;
@@ -99,6 +114,7 @@ public class URLParserThread extends Thread{
                 writeToFile(imgBytes,0);
                 System.out.println("i AM HERE");
                 updateImage(bitmap);
+
 
             } catch(Exception e){
                 e.printStackTrace();

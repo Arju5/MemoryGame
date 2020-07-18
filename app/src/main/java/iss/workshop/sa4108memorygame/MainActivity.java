@@ -45,8 +45,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int counter = 0;
     private String[] htmlStringArray;
     private ArrayList<String> selectedPictureArray = new ArrayList<String>() ;
+    private boolean isProgressBarVisible = false;
     public int PROGRESS_UPDATE = 1;
     public int DOWNLOAD_COMPLETED = 2;
+    private String[] cartoons2 = new String[20];
+    List<String> testlist1;
 
     public void setHtmlStringArray(String[] htmlStringArray) {
         this.htmlStringArray = htmlStringArray;
@@ -82,16 +85,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            "tired", "full", "what", "afraid", "no_way"
 //    };
 
-    private String[] cartoons2 = new String[20];
-
-
-
-    List<String> testlist1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //set progressbar
+        mProgressBar = findViewById(R.id.progressBar1);
+        if (isProgressBarVisible == false){
+            mProgressBar.setVisibility(View.GONE);
+        }
 
 //     startActivity(new Intent(MainActivity.this, ResultActivity.class));
 
@@ -170,7 +174,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println(intent.getStringArrayListExtra("pictureList"));
             counter = 0;
             startActivity(intent);
-
         }
     }
 
