@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public int PROGRESS_UPDATE = 2;
     public int DOWNLOAD_COMPLETED = 3;
     private ArrayList<String> testlist1 = new ArrayList<>();
+    private boolean isNewCount;
 
     public ArrayList<String> getStringPictureList() {
         return stringPictureList;
@@ -125,7 +126,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //set on count new view
+        isNewCount = true;
         //set progressbar
         mProgressBar = findViewById(R.id.progressBar1);
         //set TextView
@@ -163,11 +165,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
 
             case R.id.button_fetch:
-                mEditTextUrl = findViewById(R.id.edit_text_url);
-                String urlString = mEditTextUrl.getText().toString();
-                System.out.println(urlString);
-                Thread thread = new URLParserThread(urlString,MainActivity.this, mainThreadHandler);
-                thread.start();
+                if (isNewCount == true){
+                    mEditTextUrl = findViewById(R.id.edit_text_url);
+                    String urlString = mEditTextUrl.getText().toString();
+                    System.out.println(urlString);
+                    Thread thread = new URLParserThread(urlString,MainActivity.this, mainThreadHandler);
+                    thread.start();
+                    isNewCount = !isNewCount;
+
+                }
+                else
+                {
+                    Intent intent = new Intent(this,MainActivity.class);
+                    startActivity(intent);
+                }
+
 
                 break;
 
@@ -178,8 +190,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
         // checking index
-        File dir = new File(getStringPictureList().get(0));
-        System.out.println(dir.getParentFile());
+//        File dir = new File(getStringPictureList().get(0));
+//        System.out.println(dir.getParentFile());
 
         System.out.println("Index: " + String.valueOf(index));
         System.out.println("L: " + String.valueOf(l));
