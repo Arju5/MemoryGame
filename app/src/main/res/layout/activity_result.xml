@@ -22,7 +22,8 @@
         android:layout_height="50dp"
         android:layout_marginTop="50dp"
         android:hint="Please type your name here"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:gravity="center"/>
 
     <!--    <TextView
         android:id="@+id/playerName"

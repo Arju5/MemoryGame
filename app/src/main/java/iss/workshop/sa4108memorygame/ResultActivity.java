@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -34,16 +35,22 @@ public class ResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_result);
 
         Intent intent = getIntent();
-        String time = intent.getStringExtra("timer");
+        final String time = intent.getStringExtra("timer");
+        /*if(time != null) {
+            Toast.makeText(getApplicationContext(), time, Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Nope", Toast.LENGTH_LONG).show();
+        }*/
+        System.out.println("Time - " + time);
 
         nameInput = (EditText) findViewById(R.id.nameInput);
-/*        playerScore = (TextView) findViewById(R.id.playerScore);
-        playerScore.setText(time);*/
+        playerScore = (TextView) findViewById(R.id.playerScore);
+        playerScore.setText(time);
         submit = (Button) findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                submitScore();
+                submitScore(time);
             }
         });
 
@@ -78,12 +85,12 @@ public class ResultActivity extends AppCompatActivity {
         startActivity(mainIntent);
     }
 
-    public void submitScore() {
+    public void submitScore(String time) {
 
         String filePath = "ScoreBoard";
         String fileName = "ScoreBoard.txt";
         File mTargetFile = new File(this.getFilesDir(), filePath + "/" +fileName);
-        String fileContent = nameInput.getText().toString() + "," + "207"+"\n";
+        String fileContent = nameInput.getText().toString() + "," + time +"\n";
 
         try{
 
