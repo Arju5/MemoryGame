@@ -43,10 +43,11 @@ public class DetailActivity extends AppCompatActivity
                     long millis = System.currentTimeMillis() - start_time;
                     int seconds = (int) (millis / 1000);
                     int minutes = seconds / 60;
-                    int hours = minutes / 60;
+                    //int hours = minutes / 60;
                     seconds = seconds % 60;
 
-                    timer_txt.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
+                    //timer_txt.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
+                    timer_txt.setText(String.format("%02d:%02d", minutes, seconds));
 
                 }
             });
@@ -193,13 +194,12 @@ public class DetailActivity extends AppCompatActivity
                     timer.cancel();
                     timer.purge();
 
+                    Toast.makeText(getApplicationContext(), "Congratulations!!! You win.", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), timer_txt.getText().toString(), Toast.LENGTH_LONG).show();
                     //b.setText("start");
                     Intent intent = new Intent(DetailActivity.this, ResultActivity.class);
                     intent.putExtra("timer", timer_txt.getText().toString());
                     startActivity(intent);
-
-                    Toast.makeText(getApplicationContext(), "Congratulations!!! You win.", Toast.LENGTH_LONG).show();
-                    Toast.makeText(getApplicationContext(), timer_txt.getText().toString(), Toast.LENGTH_LONG).show();
                 }
 
                 firstview = null;

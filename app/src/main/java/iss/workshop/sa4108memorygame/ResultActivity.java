@@ -36,11 +36,11 @@ public class ResultActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         final String time = intent.getStringExtra("timer");
-        if(time != null) {
+        /*if(time != null) {
             Toast.makeText(getApplicationContext(), time, Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(getApplicationContext(), "Nope", Toast.LENGTH_LONG).show();
-        }
+        }*/
         System.out.println("Time - " + time);
 
         nameInput = (EditText) findViewById(R.id.nameInput);

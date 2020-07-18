@@ -25,7 +25,7 @@ import java.util.Comparator;
 public class ScoreActivity extends AppCompatActivity {
 
     TextView rank, name, time;
-    int count=1;
+    private int count=1;
     ArrayList<User> users = new ArrayList<User>();
 
     @Override
@@ -66,7 +66,6 @@ public class ScoreActivity extends AppCompatActivity {
             while ((strLine = br.readLine()) != null) {
                 String[] tokens = strLine.split(",");
                 String[] time = tokens[1].split(":");
-
                 users.add(new User(tokens[0], Integer.valueOf(time[0])*60 + Integer.valueOf(time[1])));
             }
             in.close();
