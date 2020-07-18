@@ -1,15 +1,11 @@
 package iss.workshop.sa4108memorygame;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -19,13 +15,8 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -54,6 +45,7 @@ public class DetailActivity extends AppCompatActivity
         }
     }
 
+
     Timer timer;
     ImageView currentView = null;
     TextView timer_txt;
@@ -61,8 +53,7 @@ public class DetailActivity extends AppCompatActivity
     boolean timer_start = true;
     long start_time = 0;
 
-    int firstClick = 0;
-    int secondClick = 0;
+    String firstClick = null;
     ImageView firstview = null;
     ImageView secondview = null;
 
@@ -73,15 +64,9 @@ public class DetailActivity extends AppCompatActivity
     String countMsg;
 
     //final HashMap<Integer,Integer> dict = new HashMap<Integer, Integer>();
-    List<Integer> ll = new ArrayList<>();
-
-    final int[] selectedImg = new int[]{
-            R.drawable.hug, R.drawable.laugh, R.drawable.peep,
-            R.drawable.snore, R.drawable.stop, R.drawable.tired,
-    };
-
-    int[] pos = {0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5};
-    int currentPos = -1;
+    List<String> ll = new ArrayList<>();
+    File mTargetFile;
+    String[] allfiles;
 
     MediaPlayer player;
 
@@ -89,6 +74,8 @@ public class DetailActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        readFromFile();
 
         //Timer start when arrives this activity
         timer_txt = (TextView) findViewById(R.id.timer);
@@ -112,19 +99,13 @@ public class DetailActivity extends AppCompatActivity
         }).start();
         //////////////////////////
 
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < selectedImg.length; j++) {
-                ll.add(selectedImg[j]);
-            }
-        }
-
-        for (int i = 0; i < ll.size(); i++) {
-            System.out.println("List : " + ll.get(i));
-        }
-
-        System.out.println("FirstTime : " + ll.get(0));
+        //shuffle all the images
         Collections.shuffle(ll);
-        System.out.println("SecondTime : " + ll.get(0));
+
+       /* for (int i = 0; i < ll.size(); i++) {
+            System.out.println("****** List After ***** : " + ll.get(i));
+        }
+*/
 
         GridView gridView = (GridView) findViewById(R.id.gridView2);
         ImageAdapter2 adapter = new ImageAdapter2(this);
@@ -154,8 +135,6 @@ public class DetailActivity extends AppCompatActivity
                 return;
             }
 
-            System.out.println("FirstViewID : " + firstClick);
-            System.out.println("SecondViewID : " + ll.get(i));
 
             if (firstClick != ll.get(i)) {
                 secondview = (ImageView) view;
@@ -182,12 +161,12 @@ public class DetailActivity extends AppCompatActivity
                 //increasing count of matches
                 //isMatched = true;
                 countPair++;
-                countMsg = countPair + "/6 Matches";
+                countMsg = countPair + "/"+allfiles.length+" Matches";
                 TextView count = findViewById(R.id.NoOfMatches);
                 if (count != null) {
                     count.setText(countMsg);
                 }
-                if (countPair == 6) {
+                if (countPair == allfiles.length) {
                     isMatched = true;
 
                     timer.cancel();
@@ -211,8 +190,6 @@ public class DetailActivity extends AppCompatActivity
             }
         }
     }
-
-
 
     @Override
     protected void onPause() {
@@ -238,6 +215,18 @@ public class DetailActivity extends AppCompatActivity
         player.release();
     }
 
+    public void readFromFile(){
+        String data = "";
+        String filePath = "gamephotos";
+        mTargetFile = new File(getFilesDir(),filePath +"/");
+        allfiles  = mTargetFile.list();
+
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < allfiles.length; j++) {
+                ll.add(allfiles[j]);
+            }
+        }
+    }
 
     public void flip(ImageView view, int id, String level) {
         if (isMatched) {
@@ -248,7 +237,8 @@ public class DetailActivity extends AppCompatActivity
                 view.setImageResource(R.drawable.question);
                 isFlipped1 = false;
             } else {
-                view.setImageResource(ll.get(id));
+                //view.setImageResource(ll.get(id));
+                view.setImageURI(Uri.parse(mTargetFile.toString()+"/"+ll.get(id)));
                 isFlipped1 = true;
             }
         }
@@ -257,7 +247,8 @@ public class DetailActivity extends AppCompatActivity
                 view.setImageResource(R.drawable.question);
                 isFlipped2 = false;
             } else {
-                view.setImageResource(ll.get(id));
+                //view.setImageResource(ll.get(id));
+                view.setImageURI(Uri.parse(mTargetFile.toString()+"/"+ll.get(id)));
                 isFlipped2 = true;
             }
         }
