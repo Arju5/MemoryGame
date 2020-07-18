@@ -3,6 +3,7 @@ package iss.workshop.sa4108memorygame;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -27,14 +28,20 @@ public class ScoreActivity extends AppCompatActivity {
     TextView rank, name, time;
     private int count=1;
     ArrayList<User> users = new ArrayList<User>();
+    MediaPlayer player;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
         //continues to play scoreboard audio
-        new SoundPoolPlayer(this).playSoundWithRedId(R.raw.scoreboard);
+        //new SoundPoolPlayer(this).playSoundWithRedId(R.raw.scoreboard);
         Intent intent = getIntent();
+
+        player = MediaPlayer.create(this, R.raw.scoreboard);
+        player.start();
+        player.setLooping(true);
 
 
         /*TextView playerName = (TextView) findViewById(R.id.playerName);
@@ -113,7 +120,29 @@ public class ScoreActivity extends AppCompatActivity {
             count++;
         }
 
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        player.pause();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        player.start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        player.seekTo(0);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        player.release();
     }
 }
