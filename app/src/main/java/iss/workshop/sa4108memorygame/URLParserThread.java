@@ -94,11 +94,11 @@ public class URLParserThread extends Thread{
                         lastPercent = percent;
                     }
                 }
-                //updateProgress(100);
+                updateProgress(100);
                 bitmap = BitmapFactory.decodeByteArray(imgBytes, 0, imageLen);
                 writeToFile(imgBytes,0);
                 System.out.println("i AM HERE");
-                //updateImage(bitmap);
+                updateImage(bitmap);
 
             } catch(Exception e){
                 e.printStackTrace();

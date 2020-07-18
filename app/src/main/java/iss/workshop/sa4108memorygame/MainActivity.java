@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int counter = 0;
     private String[] htmlStringArray;
     private ArrayList<String> selectedPictureArray = new ArrayList<String>() ;
+    public int PROGRESS_UPDATE = 1;
+    public int DOWNLOAD_COMPLETED = 2;
 
     public void setHtmlStringArray(String[] htmlStringArray) {
         this.htmlStringArray = htmlStringArray;
@@ -60,6 +63,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setHtmlStringArray((String[]) msg.obj);
 //                System.out.println(getHtmlStringArray().toString());
 //                System.out.println("This is the first url i want to use: " + htmlStringArray[0]);
+            }
+            else if (msg.what == PROGRESS_UPDATE){
+                Toast.makeText(MainActivity.this,
+                        msg.arg1 + "%", Toast.LENGTH_SHORT).show();
+
+            }
+            else if (msg.what == DOWNLOAD_COMPLETED) {
+                Toast.makeText(MainActivity.this,
+                        "I am done downloading!", Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -81,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-     startActivity(new Intent(MainActivity.this, ResultActivity.class));
+//     startActivity(new Intent(MainActivity.this, ResultActivity.class));
 
         mButtonFetch = findViewById(R.id.button_fetch);
         if (mButtonFetch !=null){
