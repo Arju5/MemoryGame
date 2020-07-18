@@ -95,13 +95,13 @@ public class DetailActivity extends AppCompatActivity
         player.start();
         player.setLooping(true);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true)
-                    System.out.println("Running...");
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (true)
+//                    System.out.println("Running...");
+//            }
+//        }).start();
         //////////////////////////
 
         //shuffle all the images
