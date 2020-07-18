@@ -60,7 +60,10 @@ public class URLParserThread extends Thread{
             String[] htmlStringArray = htmlString.split("\n");
             System.out.println(Arrays.toString(htmlStringArray));
 
-            downloadImage("https://cdn.stocksnap.io/img-thumbs/280h/woman-car_WKVLDV0K0G.jpg");
+            for(int i=1; i<=20; i++){
+                downloadImage(htmlStringArray[i], i);
+            }
+
 
 
 //            Looper mainThreadLooper = Looper.getMainLooper(); // --> Looper of the main/UI thread
@@ -76,7 +79,7 @@ public class URLParserThread extends Thread{
 
     }
 
-    protected void downloadImage(String target) {
+    protected void downloadImage(String target, int i) {
 
         int imageLen = 0;
         int totalSoFar = 0;
@@ -111,15 +114,14 @@ public class URLParserThread extends Thread{
                 }
                 updateProgress(100);
                 bitmap = BitmapFactory.decodeByteArray(imgBytes, 0, imageLen);
-                writeToFile(imgBytes,0);
+                writeToFile(imgBytes, i);
                 System.out.println("i AM HERE");
                 updateImage(bitmap);
-
-
-            } catch(Exception e){
+        } catch(Exception e){
                 e.printStackTrace();
             }
         }
+
 
     protected void updateProgress(int percent) {
         Message msg = new Message();
