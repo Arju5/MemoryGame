@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -44,6 +45,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int counter = 0;
     private String[] htmlStringArray;
     private ArrayList<String> selectedPictureArray = new ArrayList<String>() ;
+    private boolean isProgressBarVisible = false;
+    public int PROGRESS_UPDATE = 1;
+    public int DOWNLOAD_COMPLETED = 2;
+    private ArrayList<String> testlist1 = new ArrayList<>();
+
+    public ArrayList<String> getTestlist1() {
+        return testlist1;
+    }
+
+    public void setTestlist1(ArrayList<String> testlist1) {
+        this.testlist1 = testlist1;
+    }
 
     public void setHtmlStringArray(String[] htmlStringArray) {
         this.htmlStringArray = htmlStringArray;
@@ -61,6 +74,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                System.out.println(getHtmlStringArray().toString());
 //                System.out.println("This is the first url i want to use: " + htmlStringArray[0]);
             }
+            else if (msg.what == PROGRESS_UPDATE){
+                isProgressBarVisible = true;
+                mProgressBar.setVisibility(View.VISIBLE);
+                mProgressBar.setProgress(msg.arg1);
+                Toast.makeText(MainActivity.this,
+                        msg.arg1 + "%", Toast.LENGTH_SHORT).show();
+
+            }
+            else if (msg.what == DOWNLOAD_COMPLETED) {
+                Toast.makeText(MainActivity.this,
+                        "I am done downloading!", Toast.LENGTH_SHORT).show();
+                GridView gridView1 = findViewById(R.id.gridView1);
+                gridView1.setNumColumns(4);
+                ImageAdapter imgAdapter =new ImageAdapter(MainActivity.this,R.layout.image_row, (ArrayList<String>) testlist1);
+                if (gridView1 != null){
+                    gridView1.setAdapter(imgAdapter);
+                    //this is not working normally for now
+                    gridView1.setOnItemClickListener(MainActivity.this);
+                }
+
+
+            }
         }
     };
 
@@ -70,18 +105,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            "tired", "full", "what", "afraid", "no_way"
 //    };
 
-    private String[] cartoons2 = new String[20];
-
-
-
-    List<String> testlist1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-     startActivity(new Intent(MainActivity.this, ResultActivity.class));
+        //set progressbar
+        mProgressBar = findViewById(R.id.progressBar1);
+        if (isProgressBarVisible == false){
+            mProgressBar.setVisibility(View.GONE);
+        }
+
+//     startActivity(new Intent(MainActivity.this, ResultActivity.class));
 
         mButtonFetch = findViewById(R.id.button_fetch);
         if (mButtonFetch !=null){
@@ -92,13 +128,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String filePath = "GamePhoto";
             String fileName = "photo_" + i + ".jpg";
             File mTargetFile = new File(MainActivity.this.getFilesDir(),filePath + "/" + fileName);
-//            System.out.println("This is the absolute path:" + mTargetFile.getAbsolutePath());
-            cartoons2[i-1] = mTargetFile.getAbsolutePath();
-            System.out.println("This is array file dir for  cartoons2:" + cartoons2[i-1]);
-
+            testlist1.add(mTargetFile.getAbsolutePath());
         }
-        testlist1 = new ArrayList<String>(Arrays.asList(cartoons2));
-
     }
 
 
@@ -114,14 +145,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Thread thread = new URLParserThread(urlString,MainActivity.this, mainThreadHandler);
                 thread.start();
 
-                ImageAdapter imgAdapter =new ImageAdapter(this,R.layout.image_row, (ArrayList<String>) this.testlist1);
-                GridView gridView1 = findViewById(R.id.gridView1);
-                gridView1.setNumColumns(4);
-                if (gridView1 != null){
-                    gridView1.setAdapter(imgAdapter);
-                    //this is not working normally for now
-                    gridView1.setOnItemClickListener(this);
-                }
+//                ImageAdapter imgAdapter =new ImageAdapter(this,R.layout.image_row, (ArrayList<String>) testlist1);
+//                GridView gridView1 = findViewById(R.id.gridView1);
+//                gridView1.setNumColumns(4);
+//                if (gridView1 != null){
+//                    gridView1.setAdapter(imgAdapter);
+//                    //this is not working normally for now
+//                    gridView1.setOnItemClickListener(this);
+//                }
                 break;
 
         }
@@ -158,7 +189,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println(intent.getStringArrayListExtra("pictureList"));
             counter = 0;
             startActivity(intent);
-
         }
     }
 
