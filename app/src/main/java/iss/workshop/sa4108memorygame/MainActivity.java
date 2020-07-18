@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mProgressBar.setVisibility(View.GONE);
         }
 
-//     startActivity(new Intent(MainActivity.this, ResultActivity.class));
+     startActivity(new Intent(MainActivity.this, DetailActivity.class));
 
         mButtonFetch = findViewById(R.id.button_fetch);
         if (mButtonFetch !=null){
