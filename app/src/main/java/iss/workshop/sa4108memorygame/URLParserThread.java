@@ -26,11 +26,13 @@ public class URLParserThread extends Thread{
     private String url;
     private Context context;
     private Handler handler;
-    public int PROGRESS_UPDATE = 1;
-    public int DOWNLOAD_COMPLETED = 2;
+    public int PROGRESS_UPDATE = 2;
+    public int DOWNLOAD_COMPLETED = 3;
     private List<String> stringList;
     private View view;
     private ArrayList<String> stringPictureArray = new ArrayList<String>();
+    private int percent = 0;
+    private int noOfPicturesToDownload = 20;
 
     public URLParserThread(String url,Context context, Handler handler){
         super();
@@ -61,16 +63,22 @@ public class URLParserThread extends Thread{
             String[] htmlStringArray = htmlString.split("\n");
 //            System.out.println(Arrays.toString(htmlStringArray));
 
-            for(int i=1; i<=20; i++){
+            for(int i=1; i<=noOfPicturesToDownload; i++){
                 String imageDir = downloadImage(htmlStringArray[i], i);
                 stringPictureArray.add(imageDir);
+                percent = (i*100) / noOfPicturesToDownload ;
+                updateProgress(percent);
+
             }
+            updateProgressCompleted();
+
+
 
 //            Looper mainThreadLooper = Looper.getMainLooper(); // --> Looper of the main/UI thread
-            Message messageToSendToMainThread = Message.obtain(); // --> Create a message to send to UI thread
-            messageToSendToMainThread.obj = stringPictureArray; // htmlString -> actual msg value
-            messageToSendToMainThread.what = 1;
-            handler.sendMessage(messageToSendToMainThread);
+//            Message messageToSendToMainThread = Message.obtain(); // --> Create a message to send to UI thread
+//            messageToSendToMainThread.obj = stringPictureArray; // htmlString -> actual msg value
+//            messageToSendToMainThread.what = 1;
+//            handler.sendMessage(messageToSendToMainThread);
             Looper.loop();
 
         } catch (IOException e) {
@@ -107,17 +115,9 @@ public class URLParserThread extends Thread{
                 System.arraycopy(data, 0, imgBytes, totalSoFar, readLen);
                 totalSoFar += readLen;
 
-//                int percent = Math.round(totalSoFar * 100) / imageLen;
-//                if (percent - lastPercent >= 10) {
-//                    updateProgress(percent);
-//                    lastPercent = percent;
-//                }
             }
-//            updateProgress(100);
             bitmap = BitmapFactory.decodeByteArray(imgBytes, 0, imageLen);
             imageDir = writeToFile(imgBytes, i);
-//                System.out.println("i AM HERE");
-                updateImage(bitmap);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,10 +134,9 @@ public class URLParserThread extends Thread{
         handler.sendMessage(msg);
     }
 
-    protected void updateImage(Bitmap bitmap) {
+    protected void updateProgressCompleted() {
         Message msg = new Message();
         msg.what = DOWNLOAD_COMPLETED;
-        msg.obj = bitmap;
         handler.sendMessage(msg);
     }
 

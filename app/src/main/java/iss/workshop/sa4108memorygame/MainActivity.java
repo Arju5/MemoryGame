@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<String> selectedPictureArray = new ArrayList<String>() ;
     private ArrayList<String> stringPictureList = new ArrayList<String>();
     private boolean isProgressBarVisible;
-    public int PROGRESS_UPDATE = 1;
-    public int DOWNLOAD_COMPLETED = 2;
+    public int PROGRESS_UPDATE = 2;
+    public int DOWNLOAD_COMPLETED = 3;
     private ArrayList<String> testlist1 = new ArrayList<>();
 
     public ArrayList<String> getStringPictureList() {
@@ -77,13 +77,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @SuppressLint("HandlerLeak")
     Handler mainThreadHandler = new Handler() {
         public void handleMessage(@NonNull Message msg) {
-            if (msg.what == 1) {
-                setStringPictureList((ArrayList<String>) msg.obj);
-//                System.out.println(getStringPictureList());
-//                System.out.println(getHtmlStringArray().toString());
-//                System.out.println("This is the first url i want to use: " + htmlStringArray[0]);
-            }
-            else if (msg.what == PROGRESS_UPDATE){
+//            if (msg.what == 1) {
+//                setStringPictureList((ArrayList<String>) msg.obj);
+//            }
+//            else if (msg.what == PROGRESS_UPDATE){
+            if (msg.what == PROGRESS_UPDATE){
 
                 setProgressBarVisible(true);
                 mProgressBar.setVisibility(View.VISIBLE);
@@ -95,10 +93,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         msg.arg1 + "%", Toast.LENGTH_SHORT).show();
             }
             else if (msg.what == DOWNLOAD_COMPLETED) {
-//                mProgressBar.setVisibility(View.VISIBLE);
+                setProgressBarVisible(false);
+                mProgressBar.setVisibility(View.GONE);
 
                 mDownloadText.setVisibility(View.VISIBLE);
-                mDownloadText.setText("You have selected 6 pictures");
+                mDownloadText.setText("You have selected 7 pictures");
 
                 Toast.makeText(MainActivity.this,
                         "I am done downloading!", Toast.LENGTH_SHORT).show();
