@@ -216,7 +216,7 @@ public class DetailActivity extends AppCompatActivity
     }
 
     public void readFromFile(){
-        String data = "";
+        //String data = "";
         String filePath = "gamephotos";
         mTargetFile = new File(getFilesDir(),filePath +"/");
         allfiles  = mTargetFile.list();
