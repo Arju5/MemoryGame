@@ -32,6 +32,8 @@ public class ScoreActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
+        //continues to play scoreboard audio
+        new SoundPoolPlayer(this).playSoundWithRedId(R.raw.scoreboard);
         Intent intent = getIntent();
 
 

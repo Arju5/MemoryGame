@@ -17,7 +17,7 @@ public class StartPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startpage);
-        new SoundPoolPlayer(this).playSoundWithRedId(R.raw.scoreboard);
+        new SoundPoolPlayer(this).playSoundWithRedId(R.raw.gamebackground);
         btn_start = (ImageButton) findViewById(R.id.btn_start);
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
