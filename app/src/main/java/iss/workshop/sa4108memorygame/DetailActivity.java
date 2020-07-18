@@ -69,7 +69,7 @@ public class DetailActivity extends AppCompatActivity
     List<String> ll = new ArrayList<>();
     File mTargetFile;
     String[] allfiles;
-
+    ArrayList<String> pictureList;
     MediaPlayer player;
 
     @Override
@@ -80,7 +80,16 @@ public class DetailActivity extends AppCompatActivity
         ActionBar mActionBar = getSupportActionBar();
         mActionBar.hide();
 
-        readFromFile();
+        //getting user selected images from main activity
+        //readFromFile();
+        Intent intent = getIntent();
+        pictureList = intent.getStringArrayListExtra("pictureList");
+        System.out.println("pictureList from main activity::: "+pictureList);
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < pictureList.size(); j++) {
+                ll.add(pictureList.get(j));
+            }
+        }
 
         //Timer start when arrives this activity
         timer_txt = (TextView) findViewById(R.id.timer);
@@ -106,11 +115,6 @@ public class DetailActivity extends AppCompatActivity
         //shuffle all the images
         Collections.shuffle(ll);
 
-       /* for (int i = 0; i < ll.size(); i++) {
-            System.out.println("****** List After ***** : " + ll.get(i));
-        }
-*/
-
         GridView gridView = (GridView) findViewById(R.id.gridView2);
         ImageAdapter2 adapter = new ImageAdapter2(this);
 
@@ -132,13 +136,11 @@ public class DetailActivity extends AppCompatActivity
             }
             if (firstview == null) {
                 firstClick = ll.get(i);
-
                 firstview = (ImageView) view;
                 flip(firstview, i, "first");
 
                 return;
             }
-
 
             if (firstClick != ll.get(i)) {
                 secondview = (ImageView) view;
@@ -165,12 +167,12 @@ public class DetailActivity extends AppCompatActivity
                 //increasing count of matches
                 //isMatched = true;
                 countPair++;
-                countMsg = countPair + "/"+allfiles.length+" Matches";
+                countMsg = countPair + "/"+pictureList.size()+" Matches";
                 TextView count = findViewById(R.id.NoOfMatches);
                 if (count != null) {
                     count.setText(countMsg);
                 }
-                if (countPair == allfiles.length) {
+                if (countPair == pictureList.size()) {
                     isMatched = true;
 
                     timer.cancel();
@@ -218,7 +220,7 @@ public class DetailActivity extends AppCompatActivity
         player.release();
     }
 
-    public void readFromFile(){
+    /*public void readFromFile(){
         String data = "";
         String filePath = "GamePhoto";
         mTargetFile = new File(getFilesDir(),filePath +"/");
@@ -229,7 +231,7 @@ public class DetailActivity extends AppCompatActivity
                 ll.add(allfiles[j]);
             }
         }
-    }
+    }*/
 
     public void flip(ImageView view, int id, String level) {
         if (isMatched) {
@@ -241,7 +243,7 @@ public class DetailActivity extends AppCompatActivity
                 isFlipped1 = false;
             } else {
                 //view.setImageResource(ll.get(id));
-                view.setImageURI(Uri.parse(mTargetFile.toString()+"/"+ll.get(id)));
+                view.setImageURI(Uri.parse(ll.get(id)));
                 isFlipped1 = true;
             }
         }
@@ -251,7 +253,7 @@ public class DetailActivity extends AppCompatActivity
                 isFlipped2 = false;
             } else {
                 //view.setImageResource(ll.get(id));
-                view.setImageURI(Uri.parse(mTargetFile.toString()+"/"+ll.get(id)));
+                view.setImageURI(Uri.parse(ll.get(id)));
                 isFlipped2 = true;
             }
         }
