@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int counter = 0;
     private String[] htmlStringArray;
     private ArrayList<String> selectedPictureArray = new ArrayList<String>() ;
-    private boolean isProgressBarVisible = false;
+    private boolean isProgressBarVisible;
     public int PROGRESS_UPDATE = 1;
     public int DOWNLOAD_COMPLETED = 2;
     private ArrayList<String> testlist1 = new ArrayList<>();
@@ -55,6 +55,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void setTestlist1(ArrayList<String> testlist1) {
         this.testlist1 = testlist1;
+    }
+
+    public boolean isProgressBarVisible() {
+        return isProgressBarVisible;
+    }
+
+    public void setProgressBarVisible(boolean progressBarVisible) {
+        isProgressBarVisible = progressBarVisible;
     }
 
     public void setHtmlStringArray(String[] htmlStringArray) {
@@ -74,16 +82,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                System.out.println("This is the first url i want to use: " + htmlStringArray[0]);
             }
             else if (msg.what == PROGRESS_UPDATE){
-                isProgressBarVisible = true;
+                setProgressBarVisible(true);
                 mProgressBar.setVisibility(View.VISIBLE);
                 mProgressBar.setProgress(msg.arg1);
                 Toast.makeText(MainActivity.this,
                         msg.arg1 + "%", Toast.LENGTH_SHORT).show();
-
             }
             else if (msg.what == DOWNLOAD_COMPLETED) {
+                mProgressBar.setVisibility(View.VISIBLE);
                 Toast.makeText(MainActivity.this,
                         "I am done downloading!", Toast.LENGTH_SHORT).show();
+                setProgressBarVisible(false);
                 GridView gridView1 = findViewById(R.id.gridView1);
                 gridView1.setNumColumns(4);
                 ImageAdapter imgAdapter =new ImageAdapter(MainActivity.this,R.layout.image_row, (ArrayList<String>) testlist1);
@@ -92,8 +101,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //this is not working normally for now
                     gridView1.setOnItemClickListener(MainActivity.this);
                 }
-
-
             }
         }
     };
@@ -104,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            "tired", "full", "what", "afraid", "no_way"
 //    };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //set progressbar
         mProgressBar = findViewById(R.id.progressBar1);
+        isProgressBarVisible = false;
         if (isProgressBarVisible == false){
             mProgressBar.setVisibility(View.GONE);
         }
@@ -130,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             testlist1.add(mTargetFile.getAbsolutePath());
         }
     }
-
 
     @Override
     public void onClick(View view) {
@@ -179,7 +185,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             new SoundPoolPlayer(this).playSoundWithRedId(R.raw.click);
         }
 
-
         if (counter == 6){
             System.out.println(selectedPictureArray);
             System.out.println(counter);
@@ -188,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println(intent.getStringArrayListExtra("pictureList"));
             counter = 0;
             startActivity(intent);
+            intent.removeExtra("pictureList");
         }
     }
 
