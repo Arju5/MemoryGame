@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
@@ -109,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //this is not working normally for now
                     gridView1.setOnItemClickListener(MainActivity.this);
                 }
+
             }
         }
     };
@@ -150,6 +152,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             File mTargetFile = new File(MainActivity.this.getFilesDir(),filePath + "/" + fileName);
             testlist1.add(mTargetFile.getAbsolutePath());
         }
+
+        deleteFilesinGamePhoto(MainActivity.this);
+
     }
 
     @Override
@@ -173,6 +178,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
         // checking index
+        File dir = new File(getStringPictureList().get(0));
+        System.out.println(dir.getParentFile());
+
         System.out.println("Index: " + String.valueOf(index));
         System.out.println("L: " + String.valueOf(l));
 //        ArrayList<String> list2 = getStringPictureList();
@@ -206,6 +214,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             counter = 0;
             startActivity(intent);
             intent.removeExtra("pictureList");
+        }
+    }
+
+//    @Override
+//    protected void onDestroy(){
+//        super.onDestroy();
+//        File dir = new File(getStringPictureList().get(0));
+//        System.out.println(dir.getParentFile().getName());
+////        if (dir.isDirectory()) {
+////            String[] gameimgs = dir.list();
+////            System.out.println(dir.list());
+////            for (int i = 0; i < gameimgs.length; i++) {
+////                new File(dir, gameimgs[i]).delete();
+////            }
+////        }
+//    }
+
+    protected void deleteFilesinGamePhoto(Context context) {
+//        String filePath = "/data/user/0/iss.workshop.sa4108memorygame/files/GamePhoto";
+//        String filePath = context.getFilesDir().getPath();
+        String filePath = "GamePhoto";
+        File file = new File(context.getFilesDir(),filePath);
+        if (file.isDirectory()) {
+            String[] filearray = file.list();
+            System.out.println(Arrays.toString(filearray));
+            System.out.println(file);
+            for (int i = 0; i < filearray.length; i++) {
+                new File(file, filearray[i]).delete();
+            }
         }
     }
 
