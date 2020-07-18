@@ -6,6 +6,7 @@ import android.view.View;
 
 import android.widget.ImageButton;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class StartPage extends AppCompatActivity {
@@ -26,6 +27,8 @@ public class StartPage extends AppCompatActivity {
             }
 
         });
+        ActionBar mActionBar = getSupportActionBar();
+        mActionBar.hide();
 
 
     }

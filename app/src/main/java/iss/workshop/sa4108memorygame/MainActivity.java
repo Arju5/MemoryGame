@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
@@ -35,10 +36,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int counter = 0;
     private String[] htmlStringArray;
     private ArrayList<String> selectedPictureArray = new ArrayList<String>() ;
+    private ArrayList<String> stringPictureList = new ArrayList<String>();
     private boolean isProgressBarVisible;
-    public int PROGRESS_UPDATE = 1;
-    public int DOWNLOAD_COMPLETED = 2;
+    public int PROGRESS_UPDATE = 2;
+    public int DOWNLOAD_COMPLETED = 3;
     private ArrayList<String> testlist1 = new ArrayList<>();
+
+    public ArrayList<String> getStringPictureList() {
+        return stringPictureList;
+    }
+
+    public void setStringPictureList(ArrayList<String> stringPictureList) {
+        this.stringPictureList = stringPictureList;
+    }
 
     public ArrayList<String> getTestlist1() {
         return testlist1;
@@ -67,26 +77,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @SuppressLint("HandlerLeak")
     Handler mainThreadHandler = new Handler() {
         public void handleMessage(@NonNull Message msg) {
-            if (msg.what == 1) {
-                setHtmlStringArray((String[]) msg.obj);
-//                System.out.println(getHtmlStringArray().toString());
-//                System.out.println("This is the first url i want to use: " + htmlStringArray[0]);
-            }
-            else if (msg.what == PROGRESS_UPDATE){
+//            if (msg.what == 1) {
+//                setStringPictureList((ArrayList<String>) msg.obj);
+//            }
+//            else if (msg.what == PROGRESS_UPDATE){
+            if (msg.what == PROGRESS_UPDATE){
 
                 setProgressBarVisible(true);
                 mProgressBar.setVisibility(View.VISIBLE);
                 mProgressBar.setProgress(msg.arg1);
                 mDownloadText.setVisibility(View.VISIBLE);
+                mDownloadText.setText("You have selected 6 pictures");
 
                 Toast.makeText(MainActivity.this,
                         msg.arg1 + "%", Toast.LENGTH_SHORT).show();
             }
             else if (msg.what == DOWNLOAD_COMPLETED) {
-//                mProgressBar.setVisibility(View.VISIBLE);
+                setProgressBarVisible(false);
+                mProgressBar.setVisibility(View.GONE);
 
                 mDownloadText.setVisibility(View.VISIBLE);
-                mDownloadText.setText("You have selected 6 pictures");
+                mDownloadText.setText("You have selected 7 pictures");
+                //mDownloadText.setText("You have selected 6 pictures");
 
                 Toast.makeText(MainActivity.this,
                         "I am done downloading!", Toast.LENGTH_SHORT).show();
@@ -99,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //this is not working normally for now
                     gridView1.setOnItemClickListener(MainActivity.this);
                 }
+
             }
         }
     };
@@ -121,7 +134,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ActionBar mActionBar = getSupportActionBar();
         mActionBar.hide();
 
-
         isProgressBarVisible = false;
         if (isProgressBarVisible == false){
             mProgressBar.setVisibility(View.GONE);
@@ -141,6 +153,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             File mTargetFile = new File(MainActivity.this.getFilesDir(),filePath + "/" + fileName);
             testlist1.add(mTargetFile.getAbsolutePath());
         }
+
+        deleteFilesinGamePhoto(MainActivity.this);
+
     }
 
     @Override
@@ -155,14 +170,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Thread thread = new URLParserThread(urlString,MainActivity.this, mainThreadHandler);
                 thread.start();
 
-//                ImageAdapter imgAdapter =new ImageAdapter(this,R.layout.image_row, (ArrayList<String>) testlist1);
-//                GridView gridView1 = findViewById(R.id.gridView1);
-//                gridView1.setNumColumns(4);
-//                if (gridView1 != null){
-//                    gridView1.setAdapter(imgAdapter);
-//                    //this is not working normally for now
-//                    gridView1.setOnItemClickListener(this);
-//                }
                 break;
 
         }
@@ -172,13 +179,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
         // checking index
+        File dir = new File(getStringPictureList().get(0));
+        System.out.println(dir.getParentFile());
+
         System.out.println("Index: " + String.valueOf(index));
         System.out.println("L: " + String.valueOf(l));
-        String[] array = getHtmlStringArray();
-        System.out.println(array);
+//        ArrayList<String> list2 = getStringPictureList();
+//        System.out.println(list2);
+        String[] array = new String[getStringPictureList().size()];
+        for (int i=0;i<getStringPictureList().size();i++){
+            array[i] = getStringPictureList().get(i);
+//            System.out.println("This is after clicking: " + array[i]);
+        }
+//        System.out.println(array);
 
         //Still working on this
         if (this.selectedPictureArray.contains(array[index])){
+            mDownloadText.setText("You have selected "+ String.valueOf(counter) + (counter==1? " picture":" pictures"));
             String expr = "You have selected this image already. \n Please select another 1";
             Toast toast = Toast.makeText(this, expr, Toast.LENGTH_LONG);
             toast.show();
@@ -188,17 +205,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             counter +=1;
             this.selectedPictureArray.add(array[index]);
             new SoundPoolPlayer(this).playSoundWithRedId(R.raw.click);
+            mDownloadText.setText("You have selected "+ String.valueOf(counter) + (counter==1? " picture":" pictures"));
+
         }
 
         if (counter == 6){
-            System.out.println(selectedPictureArray);
+            System.out.println("These are the urls selected for next activity:" + selectedPictureArray);
             System.out.println(counter);
+            mDownloadText.setText("You have selected "+ String.valueOf(counter) + (counter==1? " picture":" pictures"));
             Intent intent = new Intent(this,DetailActivity.class);
             intent.putExtra("pictureList",selectedPictureArray);
             System.out.println(intent.getStringArrayListExtra("pictureList"));
             counter = 0;
             startActivity(intent);
             intent.removeExtra("pictureList");
+        }
+    }
+
+//    @Override
+//    protected void onDestroy(){
+//        super.onDestroy();
+//        File dir = new File(getStringPictureList().get(0));
+//        System.out.println(dir.getParentFile().getName());
+////        if (dir.isDirectory()) {
+////            String[] gameimgs = dir.list();
+////            System.out.println(dir.list());
+////            for (int i = 0; i < gameimgs.length; i++) {
+////                new File(dir, gameimgs[i]).delete();
+////            }
+////        }
+//    }
+
+    protected void deleteFilesinGamePhoto(Context context) {
+//        String filePath = "/data/user/0/iss.workshop.sa4108memorygame/files/GamePhoto";
+//        String filePath = context.getFilesDir().getPath();
+        String filePath = "GamePhoto";
+        File file = new File(context.getFilesDir(),filePath);
+        if (file.isDirectory()) {
+            String[] filearray = file.list();
+            System.out.println(Arrays.toString(filearray));
+            System.out.println(file);
+            for (int i = 0; i < filearray.length; i++) {
+                new File(file, filearray[i]).delete();
+            }
         }
     }
 

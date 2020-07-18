@@ -1,5 +1,6 @@
 package iss.workshop.sa4108memorygame;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -76,6 +77,9 @@ public class DetailActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        ActionBar mActionBar = getSupportActionBar();
+        mActionBar.hide();
+
         readFromFile();
 
         //Timer start when arrives this activity
@@ -91,14 +95,13 @@ public class DetailActivity extends AppCompatActivity
         player.start();
         player.setLooping(true);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true)
-                    System.out.println("Running...");
-            }
-        }).start();
-        //////////////////////////
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (true)
+//                    System.out.println("Running...");
+//            }
+//        }).start();
 
         //shuffle all the images
         Collections.shuffle(ll);
@@ -216,8 +219,8 @@ public class DetailActivity extends AppCompatActivity
     }
 
     public void readFromFile(){
-        //String data = "";
-        String filePath = "gamephotos";
+        String data = "";
+        String filePath = "GamePhoto";
         mTargetFile = new File(getFilesDir(),filePath +"/");
         allfiles  = mTargetFile.list();
 
@@ -252,7 +255,6 @@ public class DetailActivity extends AppCompatActivity
                 isFlipped2 = true;
             }
         }
-
     }
 
 }

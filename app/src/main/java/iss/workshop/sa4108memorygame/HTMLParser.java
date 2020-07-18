@@ -82,8 +82,8 @@ public class HTMLParser extends AsyncTask<Void, Void, Void> {
             //get the folder directory here the file will be saved
 //            System.out.println(context.getFilesDir());
             File mTargetFile = new File(context.getFilesDir(), filePath + "/" + fileName);
-            System.out.println("This is the context absolute path: " + mTargetFile.getAbsolutePath());
-            System.out.println("This is the context: " + context.getFilesDir());
+//            System.out.println("This is the context absolute path: " + mTargetFile.getAbsolutePath());
+//            System.out.println("This is the context: " + context.getFilesDir());
 
 
             File parent = mTargetFile.getParentFile();
@@ -101,30 +101,5 @@ public class HTMLParser extends AsyncTask<Void, Void, Void> {
         }
     }
 
-    protected void writeToFile(String htmlString, int i, String filePath, String fileName){
-        try{
-            filePath = "GamePhotoFolder";
-            fileName = "photo_" + i + ".jpg";
-            //get the folder directory here the file will be saved
-//            System.out.println(context.getFilesDir());
-            File mTargetFile = new File(context.getFilesDir(), filePath + "/" + fileName);
-            System.out.println("This is the context absolute path: " + mTargetFile.getAbsolutePath());
-            System.out.println("This is the context: " + context.getFilesDir());
-
-
-            File parent = mTargetFile.getParentFile();
-            if(!parent.exists() && !parent.mkdirs()){
-                throw new IllegalStateException("Couldn't create dir: " + parent);
-            }
-            FileOutputStream fos = new FileOutputStream(mTargetFile);
-            fos.write(htmlString.getBytes());
-            fos.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
 }
