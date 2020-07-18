@@ -1,5 +1,6 @@
 package iss.workshop.sa4108memorygame;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -75,6 +76,9 @@ public class DetailActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        ActionBar mActionBar = getSupportActionBar();
+        mActionBar.hide();
 
         readFromFile();
 
@@ -217,7 +221,7 @@ public class DetailActivity extends AppCompatActivity
 
     public void readFromFile(){
         String data = "";
-        String filePath = "gamephotos";
+        String filePath = "GamePhoto";
         mTargetFile = new File(getFilesDir(),filePath +"/");
         allfiles  = mTargetFile.list();
 

@@ -35,10 +35,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int counter = 0;
     private String[] htmlStringArray;
     private ArrayList<String> selectedPictureArray = new ArrayList<String>() ;
+    private ArrayList<String> stringPictureList = new ArrayList<String>();
     private boolean isProgressBarVisible;
     public int PROGRESS_UPDATE = 1;
     public int DOWNLOAD_COMPLETED = 2;
     private ArrayList<String> testlist1 = new ArrayList<>();
+
+    public ArrayList<String> getStringPictureList() {
+        return stringPictureList;
+    }
+
+    public void setStringPictureList(ArrayList<String> stringPictureList) {
+        this.stringPictureList = stringPictureList;
+    }
 
     public ArrayList<String> getTestlist1() {
         return testlist1;
@@ -68,7 +77,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Handler mainThreadHandler = new Handler() {
         public void handleMessage(@NonNull Message msg) {
             if (msg.what == 1) {
-                setHtmlStringArray((String[]) msg.obj);
+                setStringPictureList((ArrayList<String>) msg.obj);
+//                System.out.println(getStringPictureList());
 //                System.out.println(getHtmlStringArray().toString());
 //                System.out.println("This is the first url i want to use: " + htmlStringArray[0]);
             }
@@ -121,7 +131,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ActionBar mActionBar = getSupportActionBar();
         mActionBar.hide();
 
-
         isProgressBarVisible = false;
         if (isProgressBarVisible == false){
             mProgressBar.setVisibility(View.GONE);
@@ -155,14 +164,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Thread thread = new URLParserThread(urlString,MainActivity.this, mainThreadHandler);
                 thread.start();
 
-//                ImageAdapter imgAdapter =new ImageAdapter(this,R.layout.image_row, (ArrayList<String>) testlist1);
-//                GridView gridView1 = findViewById(R.id.gridView1);
-//                gridView1.setNumColumns(4);
-//                if (gridView1 != null){
-//                    gridView1.setAdapter(imgAdapter);
-//                    //this is not working normally for now
-//                    gridView1.setOnItemClickListener(this);
-//                }
                 break;
 
         }
@@ -174,8 +175,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // checking index
         System.out.println("Index: " + String.valueOf(index));
         System.out.println("L: " + String.valueOf(l));
-        String[] array = getHtmlStringArray();
-        System.out.println(array);
+//        ArrayList<String> list2 = getStringPictureList();
+//        System.out.println(list2);
+        String[] array = new String[getStringPictureList().size()];
+        for (int i=0;i<getStringPictureList().size();i++){
+            array[i] = getStringPictureList().get(i);
+//            System.out.println("This is after clicking: " + array[i]);
+        }
+//        System.out.println(array);
 
         //Still working on this
         if (this.selectedPictureArray.contains(array[index])){
@@ -191,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (counter == 6){
-            System.out.println(selectedPictureArray);
+            System.out.println("These are the urls selected for next activity:" + selectedPictureArray);
             System.out.println(counter);
             Intent intent = new Intent(this,DetailActivity.class);
             intent.putExtra("pictureList",selectedPictureArray);

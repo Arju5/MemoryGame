@@ -30,6 +30,7 @@ public class URLParserThread extends Thread{
     public int DOWNLOAD_COMPLETED = 2;
     private List<String> stringList;
     private View view;
+    private ArrayList<String> stringPictureArray = new ArrayList<String>();
 
     public URLParserThread(String url,Context context, Handler handler){
         super();
@@ -58,17 +59,16 @@ public class URLParserThread extends Thread{
             htmlParser.writeToFile(htmlString);
 
             String[] htmlStringArray = htmlString.split("\n");
-            System.out.println(Arrays.toString(htmlStringArray));
+//            System.out.println(Arrays.toString(htmlStringArray));
 
             for(int i=1; i<=20; i++){
-                downloadImage(htmlStringArray[i], i);
+                String imageDir = downloadImage(htmlStringArray[i], i);
+                stringPictureArray.add(imageDir);
             }
-
-
 
 //            Looper mainThreadLooper = Looper.getMainLooper(); // --> Looper of the main/UI thread
             Message messageToSendToMainThread = Message.obtain(); // --> Create a message to send to UI thread
-            messageToSendToMainThread.obj = htmlStringArray; // htmlString -> actual msg value
+            messageToSendToMainThread.obj = stringPictureArray; // htmlString -> actual msg value
             messageToSendToMainThread.what = 1;
             handler.sendMessage(messageToSendToMainThread);
             Looper.loop();
@@ -79,7 +79,8 @@ public class URLParserThread extends Thread{
 
     }
 
-    protected void downloadImage(String target, int i) {
+    protected String downloadImage(String target, int i) {
+        String imageDir = "";
 
         int imageLen = 0;
         int totalSoFar = 0;
@@ -90,37 +91,40 @@ public class URLParserThread extends Thread{
         byte[] imgBytes;
 
         try {
-                URL url = new URL(target);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.connect();
+            URL url = new URL(target);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.connect();
 
-                imageLen = conn.getContentLength();
-                imgBytes = new byte[imageLen];
+            imageLen = conn.getContentLength();
+            imgBytes = new byte[imageLen];
 
-                InputStream in = url.openStream();
-                BufferedInputStream bufIn = new BufferedInputStream(in, 2048);
+            InputStream in = url.openStream();
+            BufferedInputStream bufIn = new BufferedInputStream(in, 2048);
 
-                //should be 2048 instead of 1024 --> initially was byte[] data = new byte[1024];
-                byte[] data = new byte[2048];
-                while ((readLen = bufIn.read(data)) != -1) {
-                    System.arraycopy(data, 0, imgBytes, totalSoFar, readLen);
-                    totalSoFar += readLen;
+            //should be 2048 instead of 1024 --> initially was byte[] data = new byte[1024];
+            byte[] data = new byte[2048];
+            while ((readLen = bufIn.read(data)) != -1) {
+                System.arraycopy(data, 0, imgBytes, totalSoFar, readLen);
+                totalSoFar += readLen;
 
-                    int percent = Math.round(totalSoFar * 100) / imageLen;
-                    if (percent - lastPercent >= 10) {
-                        updateProgress(percent);
-                        lastPercent = percent;
-                    }
+                int percent = Math.round(totalSoFar * 100) / imageLen;
+                if (percent - lastPercent >= 10) {
+                    updateProgress(percent);
+                    lastPercent = percent;
                 }
-                updateProgress(100);
-                bitmap = BitmapFactory.decodeByteArray(imgBytes, 0, imageLen);
-                writeToFile(imgBytes, i);
-                System.out.println("i AM HERE");
-                updateImage(bitmap);
-        } catch(Exception e){
-                e.printStackTrace();
             }
+//            updateProgress(100);
+//                bitmap = BitmapFactory.decodeByteArray(imgBytes, 0, imageLen);
+            imageDir = writeToFile(imgBytes, i);
+//                System.out.println("i AM HERE");
+                updateImage(bitmap);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return imageDir;
+    }
+
 
 
     protected void updateProgress(int percent) {
@@ -137,16 +141,16 @@ public class URLParserThread extends Thread{
         handler.sendMessage(msg);
     }
 
-    protected void writeToFile(byte[] imgBytes, int i){
-        try{
-            String filePath = "GamePhoto";
-            String fileName = "photo_" + i + ".jpg";
-            //get the folder directory here the file will be saved
+    protected String writeToFile(byte[] imgBytes, int i){
+        String filePath = "GamePhoto";
+        String fileName = "photo_" + i + ".jpg";
+        //get the folder directory here the file will be saved
 //            System.out.println(context.getFilesDir());
-            File mTargetFile = new File(context.getFilesDir(), filePath + "/" + fileName);
-            System.out.println("This is the context absolute path: " + mTargetFile.getAbsolutePath());
-            System.out.println("This is the context: " + context.getFilesDir());
+        File mTargetFile = new File(context.getFilesDir(), filePath + "/" + fileName);
+//        System.out.println("This is the context absolute path: " + mTargetFile.getAbsolutePath());
+//        System.out.println("This is the context: " + context.getFilesDir());
 
+        try{
 
             File parent = mTargetFile.getParentFile();
             if(!parent.exists() && !parent.mkdirs()){
@@ -161,6 +165,7 @@ public class URLParserThread extends Thread{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return mTargetFile.getAbsolutePath();
     }
 
 }
