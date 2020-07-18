@@ -1,6 +1,7 @@
 package iss.workshop.sa4108memorygame;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -8,42 +9,52 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Looper;
+
 import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ListView;
+
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     private Button mButtonFetch;
     private EditText mEditTextUrl;
     private ProgressBar mProgressBar;
+    private TextView mDownloadText;
+    private ActionBar mActionBar;
+
     private int counter = 0;
     private String[] htmlStringArray;
     private ArrayList<String> selectedPictureArray = new ArrayList<String>() ;
+    private boolean isProgressBarVisible;
+    public int PROGRESS_UPDATE = 1;
+    public int DOWNLOAD_COMPLETED = 2;
+    private ArrayList<String> testlist1 = new ArrayList<>();
+
+    public ArrayList<String> getTestlist1() {
+        return testlist1;
+    }
+
+    public void setTestlist1(ArrayList<String> testlist1) {
+        this.testlist1 = testlist1;
+    }
+
+    public boolean isProgressBarVisible() {
+        return isProgressBarVisible;
+    }
+
+    public void setProgressBarVisible(boolean progressBarVisible) {
+        isProgressBarVisible = progressBarVisible;
+    }
 
     public void setHtmlStringArray(String[] htmlStringArray) {
         this.htmlStringArray = htmlStringArray;
@@ -58,30 +69,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void handleMessage(@NonNull Message msg) {
             if (msg.what == 1) {
                 setHtmlStringArray((String[]) msg.obj);
-                System.out.println(getHtmlStringArray().toString());
-                System.out.println("This is the first url i want to use: " + htmlStringArray[0]);
+//                System.out.println(getHtmlStringArray().toString());
+//                System.out.println("This is the first url i want to use: " + htmlStringArray[0]);
+            }
+            else if (msg.what == PROGRESS_UPDATE){
+
+                setProgressBarVisible(true);
+                mProgressBar.setVisibility(View.VISIBLE);
+                mProgressBar.setProgress(msg.arg1);
+                mDownloadText.setVisibility(View.VISIBLE);
+
+                Toast.makeText(MainActivity.this,
+                        msg.arg1 + "%", Toast.LENGTH_SHORT).show();
+            }
+            else if (msg.what == DOWNLOAD_COMPLETED) {
+//                mProgressBar.setVisibility(View.VISIBLE);
+
+                mDownloadText.setVisibility(View.VISIBLE);
+                mDownloadText.setText("You have selected 6 pictures");
+
+                Toast.makeText(MainActivity.this,
+                        "I am done downloading!", Toast.LENGTH_SHORT).show();
+                setProgressBarVisible(false);
+                GridView gridView1 = findViewById(R.id.gridView1);
+                gridView1.setNumColumns(4);
+                ImageAdapter imgAdapter =new ImageAdapter(MainActivity.this,R.layout.image_row, (ArrayList<String>) testlist1);
+                if (gridView1 != null){
+                    gridView1.setAdapter(imgAdapter);
+                    //this is not working normally for now
+                    gridView1.setOnItemClickListener(MainActivity.this);
+                }
             }
         }
     };
 
     //testdata
-    private String[] cartoons = {
-            "hug", "laugh", "peep", "snore", "stop",
-            "tired", "full", "what", "afraid", "no_way"
-    };
-
-    private String[] cartoons2 = new String[20];
-
-
-
-    List<String> testlist1;
+//    private String[] cartoons = {
+//            "hug", "laugh", "peep", "snore", "stop",
+//            "tired", "full", "what", "afraid", "no_way"
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//      startActivity(new Intent(MainActivity.this, ResultActivity.class));
+        //set progressbar
+        mProgressBar = findViewById(R.id.progressBar1);
+        //set TextView
+        mDownloadText = findViewById(R.id.textDownload);
+        ActionBar mActionBar = getSupportActionBar();
+        mActionBar.hide();
+
+
+        isProgressBarVisible = false;
+        if (isProgressBarVisible == false){
+            mProgressBar.setVisibility(View.GONE);
+            mDownloadText.setVisibility(View.GONE);
+        }
+
+//     startActivity(new Intent(MainActivity.this, DetailActivity.class));
 
         mButtonFetch = findViewById(R.id.button_fetch);
         if (mButtonFetch !=null){
@@ -92,15 +139,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String filePath = "GamePhoto";
             String fileName = "photo_" + i + ".jpg";
             File mTargetFile = new File(MainActivity.this.getFilesDir(),filePath + "/" + fileName);
-//            System.out.println("This is the absolute path:" + mTargetFile.getAbsolutePath());
-            cartoons2[i-1] = mTargetFile.getAbsolutePath();
-            System.out.println("This is array file dir for  cartoons2:" + cartoons2[i-1]);
-
+            testlist1.add(mTargetFile.getAbsolutePath());
         }
-        testlist1 = new ArrayList<String>(Arrays.asList(cartoons2));
-
     }
-
 
     @Override
     public void onClick(View view) {
@@ -114,14 +155,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Thread thread = new URLParserThread(urlString,MainActivity.this, mainThreadHandler);
                 thread.start();
 
-                ImageAdapter imgAdapter =new ImageAdapter(this,R.layout.image_row, (ArrayList<String>) this.testlist1);
-                GridView gridView1 = findViewById(R.id.gridView1);
-                gridView1.setNumColumns(4);
-                if (gridView1 != null){
-                    gridView1.setAdapter(imgAdapter);
-                    //this is not working normally for now
-                    gridView1.setOnItemClickListener(this);
-                }
+//                ImageAdapter imgAdapter =new ImageAdapter(this,R.layout.image_row, (ArrayList<String>) testlist1);
+//                GridView gridView1 = findViewById(R.id.gridView1);
+//                gridView1.setNumColumns(4);
+//                if (gridView1 != null){
+//                    gridView1.setAdapter(imgAdapter);
+//                    //this is not working normally for now
+//                    gridView1.setOnItemClickListener(this);
+//                }
                 break;
 
         }
@@ -149,7 +190,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             new SoundPoolPlayer(this).playSoundWithRedId(R.raw.click);
         }
 
-
         if (counter == 6){
             System.out.println(selectedPictureArray);
             System.out.println(counter);
@@ -158,6 +198,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println(intent.getStringArrayListExtra("pictureList"));
             counter = 0;
             startActivity(intent);
+            intent.removeExtra("pictureList");
         }
     }
 
