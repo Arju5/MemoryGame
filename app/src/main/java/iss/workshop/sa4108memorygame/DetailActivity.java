@@ -102,7 +102,6 @@ public class DetailActivity extends AppCompatActivity
 //                    System.out.println("Running...");
 //            }
 //        }).start();
-        //////////////////////////
 
         //shuffle all the images
         Collections.shuffle(ll);
@@ -256,7 +255,6 @@ public class DetailActivity extends AppCompatActivity
                 isFlipped2 = true;
             }
         }
-
     }
 
 }

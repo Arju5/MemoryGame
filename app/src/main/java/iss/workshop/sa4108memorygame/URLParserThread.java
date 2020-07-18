@@ -107,14 +107,14 @@ public class URLParserThread extends Thread{
                 System.arraycopy(data, 0, imgBytes, totalSoFar, readLen);
                 totalSoFar += readLen;
 
-                int percent = Math.round(totalSoFar * 100) / imageLen;
-                if (percent - lastPercent >= 10) {
-                    updateProgress(percent);
-                    lastPercent = percent;
-                }
+//                int percent = Math.round(totalSoFar * 100) / imageLen;
+//                if (percent - lastPercent >= 10) {
+//                    updateProgress(percent);
+//                    lastPercent = percent;
+//                }
             }
 //            updateProgress(100);
-//                bitmap = BitmapFactory.decodeByteArray(imgBytes, 0, imageLen);
+            bitmap = BitmapFactory.decodeByteArray(imgBytes, 0, imageLen);
             imageDir = writeToFile(imgBytes, i);
 //                System.out.println("i AM HERE");
                 updateImage(bitmap);

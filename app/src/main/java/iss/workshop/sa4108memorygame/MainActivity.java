@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mProgressBar.setVisibility(View.VISIBLE);
                 mProgressBar.setProgress(msg.arg1);
                 mDownloadText.setVisibility(View.VISIBLE);
+                mDownloadText.setText("You have selected 6 pictures");
 
                 Toast.makeText(MainActivity.this,
                         msg.arg1 + "%", Toast.LENGTH_SHORT).show();
