@@ -1,6 +1,7 @@
 package iss.workshop.sa4108memorygame;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -8,39 +9,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Looper;
+
 import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ListView;
+
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     private Button mButtonFetch;
     private EditText mEditTextUrl;
     private ProgressBar mProgressBar;
+    private TextView mDownloadText;
+    private ActionBar mActionBar;
+
     private int counter = 0;
     private String[] htmlStringArray;
     private ArrayList<String> selectedPictureArray = new ArrayList<String>() ;
@@ -82,14 +73,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                System.out.println("This is the first url i want to use: " + htmlStringArray[0]);
             }
             else if (msg.what == PROGRESS_UPDATE){
+
                 setProgressBarVisible(true);
                 mProgressBar.setVisibility(View.VISIBLE);
                 mProgressBar.setProgress(msg.arg1);
+                mDownloadText.setVisibility(View.VISIBLE);
+
                 Toast.makeText(MainActivity.this,
                         msg.arg1 + "%", Toast.LENGTH_SHORT).show();
             }
             else if (msg.what == DOWNLOAD_COMPLETED) {
-                mProgressBar.setVisibility(View.VISIBLE);
+//                mProgressBar.setVisibility(View.VISIBLE);
+
+                mDownloadText.setVisibility(View.VISIBLE);
+                mDownloadText.setText("You have selected 6 pictures");
+
                 Toast.makeText(MainActivity.this,
                         "I am done downloading!", Toast.LENGTH_SHORT).show();
                 setProgressBarVisible(false);
@@ -118,12 +116,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //set progressbar
         mProgressBar = findViewById(R.id.progressBar1);
+        //set TextView
+        mDownloadText = findViewById(R.id.textDownload);
+        ActionBar mActionBar = getSupportActionBar();
+        mActionBar.hide();
+
+
         isProgressBarVisible = false;
         if (isProgressBarVisible == false){
             mProgressBar.setVisibility(View.GONE);
+            mDownloadText.setVisibility(View.GONE);
         }
 
-     startActivity(new Intent(MainActivity.this, DetailActivity.class));
+//     startActivity(new Intent(MainActivity.this, DetailActivity.class));
 
         mButtonFetch = findViewById(R.id.button_fetch);
         if (mButtonFetch !=null){
