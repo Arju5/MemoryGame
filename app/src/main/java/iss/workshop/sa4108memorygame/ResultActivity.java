@@ -33,6 +33,8 @@ public class ResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+        //plays scoreboard audio when displaying player score
+        new SoundPoolPlayer(this).playSoundWithRedId(R.raw.scoreboard);
 
         Intent intent = getIntent();
         final String time = intent.getStringExtra("timer");
