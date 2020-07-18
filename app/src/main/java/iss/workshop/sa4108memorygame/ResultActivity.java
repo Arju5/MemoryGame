@@ -60,7 +60,11 @@ public class ResultActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                submitScore(time);
+                if (nameInput.length() > 0) {
+                    submitScore(time);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Name is required.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
