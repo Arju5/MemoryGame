@@ -233,19 +233,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-//    @Override
-//    protected void onDestroy(){
-//        super.onDestroy();
-//        File dir = new File(getStringPictureList().get(0));
-//        System.out.println(dir.getParentFile().getName());
-////        if (dir.isDirectory()) {
-////            String[] gameimgs = dir.list();
-////            System.out.println(dir.list());
-////            for (int i = 0; i < gameimgs.length; i++) {
-////                new File(dir, gameimgs[i]).delete();
-////            }
-////        }
-//    }
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        deleteFilesinGamePhoto(this);
+    }
 
     protected void deleteFilesinGamePhoto(Context context) {
 //        String filePath = "/data/user/0/iss.workshop.sa4108memorygame/files/GamePhoto";
