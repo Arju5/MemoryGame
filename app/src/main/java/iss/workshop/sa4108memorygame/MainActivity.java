@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public int DOWNLOAD_COMPLETED = 3;
     private ArrayList<String> testlist1 = new ArrayList<>();
     private boolean isNewCount;
+    private int downloadcounter = 0;
 
     public ArrayList<String> getStringPictureList() {
         return stringPictureList;
@@ -84,23 +85,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             else if (msg.what == PROGRESS_UPDATE){
 //            if (msg.what == PROGRESS_UPDATE){
 
-                setProgressBarVisible(true);
-                mProgressBar.setVisibility(View.VISIBLE);
-                mProgressBar.setProgress(msg.arg1);
-                mDownloadText.setVisibility(View.VISIBLE);
+                    setProgressBarVisible(true);
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    mProgressBar.setProgress(msg.arg1);
+                    mDownloadText.setVisibility(View.VISIBLE);
+                    mDownloadText.setText("Downloading " + msg.arg1 / 5 + " of 20 pictures");
 
-                Toast.makeText(MainActivity.this,
-                        msg.arg1 + "%", Toast.LENGTH_SHORT).show();
-            }
+                }
+
             else if (msg.what == DOWNLOAD_COMPLETED) {
                 setProgressBarVisible(false);
                 mProgressBar.setVisibility(View.GONE);
 
 //                mDownloadText.setVisibility(View.VISIBLE);
-                mDownloadText.setText("");
+                mDownloadText.setText("Please select 6 pictures");
 
-                Toast.makeText(MainActivity.this,
-                        "I am done downloading!", Toast.LENGTH_SHORT).show();
                 setProgressBarVisible(false);
                 GridView gridView1 = findViewById(R.id.gridView1);
                 gridView1.setNumColumns(4);
@@ -114,6 +113,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     };
+
+    //testdata
+//    private String[] cartoons = {
+//            "hug", "laugh", "peep", "snore", "stop",
+//            "tired", "full", "what", "afraid", "no_way"
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,13 +145,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (mButtonFetch !=null){
             mButtonFetch.setOnClickListener(this);
         }
+
         for(int i = 1;i<21; i++){
             String filePath = "GamePhoto";
             String fileName = "photo_" + i + ".jpg";
             File mTargetFile = new File(MainActivity.this.getFilesDir(),filePath + "/" + fileName);
             testlist1.add(mTargetFile.getAbsolutePath());
         }
+
         deleteFilesinGamePhoto(MainActivity.this);
+
     }
 
     @Override
@@ -159,21 +167,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     mEditTextUrl = findViewById(R.id.edit_text_url);
                     String urlString = mEditTextUrl.getText().toString();
                     System.out.println(urlString);
+                    mDownloadText = findViewById(R.id.textDownload);
+                    mDownloadText.setText("Start downloading");
                     Thread thread = new URLParserThread(urlString,MainActivity.this, mainThreadHandler);
                     thread.start();
                     isNewCount = !isNewCount;
+
                 }
                 else
                 {
                     Intent intent = new Intent(this,MainActivity.class);
                     startActivity(intent);
                 }
+
+
                 break;
+
         }
+
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
+        // checking index
+//        File dir = new File(getStringPictureList().get(0));
+//        System.out.println(dir.getParentFile());
 
         System.out.println("Index: " + String.valueOf(index));
         System.out.println("L: " + String.valueOf(l));
@@ -199,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             this.selectedPictureArray.add(array[index]);
             new SoundPoolPlayer(this).playSoundWithRedId(R.raw.click);
             mDownloadText.setText("You have selected "+ String.valueOf(counter) + (counter==1? " picture":" pictures"));
+
         }
 
         if (counter == 6){
@@ -213,6 +232,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intent.removeExtra("pictureList");
         }
     }
+
+//    @Override
+//    protected void onDestroy(){
+//        super.onDestroy();
+//        File dir = new File(getStringPictureList().get(0));
+//        System.out.println(dir.getParentFile().getName());
+////        if (dir.isDirectory()) {
+////            String[] gameimgs = dir.list();
+////            System.out.println(dir.list());
+////            for (int i = 0; i < gameimgs.length; i++) {
+////                new File(dir, gameimgs[i]).delete();
+////            }
+////        }
+//    }
 
     protected void deleteFilesinGamePhoto(Context context) {
 //        String filePath = "/data/user/0/iss.workshop.sa4108memorygame/files/GamePhoto";
