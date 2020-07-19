@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             array[i] = getStringPictureList().get(i);
 //            System.out.println("This is after clicking: " + array[i]);
         }
-        
+
         if (this.selectedPictureArray.contains(array[index])){
             this.selectedPictureArray.remove(array[index]);
             counter -=1;
