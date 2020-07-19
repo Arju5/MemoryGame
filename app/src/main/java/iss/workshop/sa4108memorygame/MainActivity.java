@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<String> testlist1 = new ArrayList<>();
     private boolean isNewCount;
     private int downloadcounter = 0;
+
+    MediaPlayer player;
 
     public ArrayList<String> getStringPictureList() {
         return stringPictureList;
@@ -126,6 +129,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //for background music
+        player = MediaPlayer.create(this, R.raw.over_the_rainbow);
+        player.start();
+        player.setLooping(true);
+
         //set on count new view
         isNewCount = true;
         //set progressbar
@@ -250,13 +259,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             counter = 0;
             startActivity(intent);
             intent.removeExtra("pictureList");
+            player.stop();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        player.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        player.start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        player.seekTo(0);
     }
 
     @Override
     protected void onDestroy(){
         super.onDestroy();
         deleteFilesinGamePhoto(this);
+        player.release();
     }
 
     protected void deleteFilesinGamePhoto(Context context) {
