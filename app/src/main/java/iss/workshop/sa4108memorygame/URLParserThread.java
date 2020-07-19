@@ -72,8 +72,6 @@ public class URLParserThread extends Thread{
             }
             updateProgressCompleted();
 
-
-
 //            Looper mainThreadLooper = Looper.getMainLooper(); // --> Looper of the main/UI thread
             Message messageToSendToMainThread = Message.obtain(); // --> Create a message to send to UI thread
             messageToSendToMainThread.obj = stringPictureArray; // htmlString -> actual msg value
@@ -116,7 +114,7 @@ public class URLParserThread extends Thread{
                 totalSoFar += readLen;
 
             }
-            bitmap = BitmapFactory.decodeByteArray(imgBytes, 0, imageLen);
+//            bitmap = BitmapFactory.decodeByteArray(imgBytes, 0, imageLen);
             imageDir = writeToFile(imgBytes, i);
 
         } catch (Exception e) {

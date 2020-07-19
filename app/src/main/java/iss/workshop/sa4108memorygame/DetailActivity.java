@@ -3,6 +3,7 @@ package iss.workshop.sa4108memorygame;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -15,7 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
@@ -190,6 +193,7 @@ public class DetailActivity extends AppCompatActivity
                     Intent intent = new Intent(DetailActivity.this, ResultActivity.class);
                     intent.putExtra("timer", timer_txt.getText().toString());
                     startActivity(intent);
+                    deleteFilesinGamePhoto(DetailActivity.this);
                 }
 
                 firstview = null;
@@ -254,6 +258,21 @@ public class DetailActivity extends AppCompatActivity
             } else {
                 view.setImageURI(Uri.parse(imageList.get(id)));
                 isFlipped2 = true;
+            }
+        }
+    }
+
+    protected void deleteFilesinGamePhoto(Context context) {
+//        String filePath = "/data/user/0/iss.workshop.sa4108memorygame/files/GamePhoto";
+//        String filePath = context.getFilesDir().getPath();
+        String filePath = "GamePhoto";
+        File file = new File(context.getFilesDir(),filePath);
+        if (file.isDirectory()) {
+            String[] filearray = file.list();
+            System.out.println(Arrays.toString(filearray));
+            System.out.println(file);
+            for (int i = 0; i < filearray.length; i++) {
+                new File(file, filearray[i]).delete();
             }
         }
     }
