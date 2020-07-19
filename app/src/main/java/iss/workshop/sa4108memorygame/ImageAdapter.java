@@ -37,7 +37,6 @@ public class ImageAdapter extends ArrayAdapter {
         view = inflater.inflate(R.layout.image_row, null);
 
         ImageView img1 = view.findViewById(R.id.img1);
-//        img1.setLayoutParams(new GridView.LayoutParams(350,350));
         img1.setScaleType(ImageView.ScaleType.CENTER_CROP);
         img1.setClickable(false);
 
@@ -49,9 +48,6 @@ public class ImageAdapter extends ArrayAdapter {
             img1.setImageBitmap(myBitmap);
             img1.setTag(imgList.get(pos));
         }
-
-//        img1.setImageResource(id1);
-//        img1.setTag(imgList.get(pos));
 
         return view;
     }
