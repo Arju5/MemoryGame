@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -76,9 +75,7 @@ public class DetailActivity extends AppCompatActivity
     String countMsg;
 
     //final HashMap<Integer,Integer> dict = new HashMap<Integer, Integer>();
-    List<String> ll = new ArrayList<>();
-    File mTargetFile;
-    String[] allfiles;
+    List<String> imageList = new ArrayList<>();
     ArrayList<String> pictureList;
     MediaPlayer player;
 
@@ -91,13 +88,13 @@ public class DetailActivity extends AppCompatActivity
         mActionBar.hide();
 
         //getting user selected images from main activity
-        //readFromFile();
         Intent intent = getIntent();
         pictureList = intent.getStringArrayListExtra("pictureList");
         System.out.println("pictureList from main activity::: " + pictureList);
+        //duplicate the selected images
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < pictureList.size(); j++) {
-                ll.add(pictureList.get(j));
+                imageList.add(pictureList.get(j));
             }
         }
 
@@ -115,7 +112,7 @@ public class DetailActivity extends AppCompatActivity
         player.setLooping(true);
 
         //shuffle all the images
-        Collections.shuffle(ll);
+        Collections.shuffle(imageList);
 
         GridView gridView = (GridView) findViewById(R.id.gridView2);
         ImageAdapter2 adapter = new ImageAdapter2(this);
@@ -137,14 +134,14 @@ public class DetailActivity extends AppCompatActivity
                 return;
             }
             if (firstview == null) {
-                firstClick = ll.get(i);
+                firstClick = imageList.get(i);
                 firstview = (ImageView) view;
                 flip(firstview, i, "first");
 
                 return;
             }
 
-            if (firstClick != ll.get(i)) {
+            if (firstClick != imageList.get(i)) {
                 secondview = (ImageView) view;
                 flip(secondview, i, "second");
                 isBusy = true;
@@ -163,6 +160,10 @@ public class DetailActivity extends AppCompatActivity
             } else {
                 secondview = (ImageView) view;
                 flip(secondview, i, "second");
+
+                //sound when two images match
+                player = MediaPlayer.create(this,R.raw.pop_clip_in);
+                player.start();
 
                 firstview.setEnabled(false);
                 secondview.setEnabled(false);
@@ -222,19 +223,6 @@ public class DetailActivity extends AppCompatActivity
         player.release();
     }
 
-    /*public void readFromFile(){
-        String data = "";
-        String filePath = "GamePhoto";
-        mTargetFile = new File(getFilesDir(),filePath +"/");
-        allfiles  = mTargetFile.list();
-
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < allfiles.length; j++) {
-                ll.add(allfiles[j]);
-            }
-        }
-    }*/
-
     public void flip(ImageView view, int id, String level) {
         if (isMatched) {
             return;
@@ -244,8 +232,7 @@ public class DetailActivity extends AppCompatActivity
                 view.setImageResource(R.drawable.question);
                 isFlipped1 = false;
             } else {
-                //view.setImageResource(ll.get(id));
-                view.setImageURI(Uri.parse(ll.get(id)));
+                view.setImageURI(Uri.parse(imageList.get(id)));
                 isFlipped1 = true;
             }
         }
@@ -254,8 +241,7 @@ public class DetailActivity extends AppCompatActivity
                 view.setImageResource(R.drawable.question);
                 isFlipped2 = false;
             } else {
-                //view.setImageResource(ll.get(id));
-                view.setImageURI(Uri.parse(ll.get(id)));
+                view.setImageURI(Uri.parse(imageList.get(id)));
                 isFlipped2 = true;
             }
         }
