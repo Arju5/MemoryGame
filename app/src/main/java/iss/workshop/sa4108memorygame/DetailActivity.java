@@ -80,12 +80,14 @@ public class DetailActivity extends AppCompatActivity
     //final HashMap<Integer,Integer> dict = new HashMap<Integer, Integer>();
     List<String> imageList = new ArrayList<>();
     ArrayList<String> pictureList;
-    MediaPlayer player;
+    MediaPlayer player,player1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        Toast.makeText(getApplicationContext(),"Time Limit : 2 minutes",Toast.LENGTH_SHORT).show();
 
         ActionBar mActionBar = getSupportActionBar();
         mActionBar.hide();
@@ -110,9 +112,9 @@ public class DetailActivity extends AppCompatActivity
         }
 
         //for background music
-        player = MediaPlayer.create(this, R.raw.over_the_rainbow);
-        player.start();
-        player.setLooping(true);
+        player1 = MediaPlayer.create(this, R.raw.over_the_rainbow);
+        player1.start();
+        player1.setLooping(true);
 
         //shuffle all the images
         Collections.shuffle(imageList);
@@ -183,6 +185,7 @@ public class DetailActivity extends AppCompatActivity
 
                     timer.cancel();
                     timer.purge();
+                    player1.stop();
 
                     Toast.makeText(getApplicationContext(), "Congratulations!!! You win.", Toast.LENGTH_LONG).show();
                     //Toast.makeText(getApplicationContext(), timer_txt.getText().toString(), Toast.LENGTH_LONG).show();
@@ -213,25 +216,25 @@ public class DetailActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        player.pause();
+        player1.pause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        player.start();
+        player1.start();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        player.seekTo(0);
+        player1.seekTo(0);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        player.release();
+        player1.release();
     }
 
     public void flip(ImageView view, int id, String level) {

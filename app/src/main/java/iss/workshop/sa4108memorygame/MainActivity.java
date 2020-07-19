@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -204,7 +206,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 //        System.out.println(array);
 
+        /*ImageView imgview = view.findViewById(R.id.img1);
+        System.out.println("*****TestingIMg*****" + imgview);*/
+
+        ImageView img_view = view.findViewById(R.id.imgtick);
+        img_view.setVisibility(View.VISIBLE);
+
+
         //Still working on this
+
         if (this.selectedPictureArray.contains(array[index])){
             mDownloadText.setText("You have selected "+ String.valueOf(counter) + (counter==1? " picture":" pictures"));
             String expr = "You have selected this image already. \n Please select another 1";
