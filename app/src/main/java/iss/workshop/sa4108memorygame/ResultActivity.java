@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.BufferedReader;
@@ -37,6 +38,10 @@ public class ResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+
+        ActionBar mActionBar = getSupportActionBar();
+        mActionBar.hide();
+
         //plays scoreboard audio when displaying player score
         //new SoundPoolPlayer(this).playSoundWithRedId(R.raw.scoreboard);
 

@@ -1,5 +1,6 @@
 package iss.workshop.sa4108memorygame;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -39,6 +40,8 @@ public class ScoreActivity extends AppCompatActivity {
         //continues to play scoreboard audio
         //new SoundPoolPlayer(this).playSoundWithRedId(R.raw.scoreboard);
         Intent intent = getIntent();
+        ActionBar mActionBar = getSupportActionBar();
+        mActionBar.hide();
 
         player3 = MediaPlayer.create(this, R.raw.scoreboard);
         player3.start();
