@@ -208,6 +208,7 @@ public class DetailActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        timer.cancel();
         Intent intent = new Intent(DetailActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
