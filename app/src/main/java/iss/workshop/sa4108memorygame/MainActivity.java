@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             array[i] = getStringPictureList().get(i);
 //            System.out.println("This is after clicking: " + array[i]);
         }
-
+        
         if (this.selectedPictureArray.contains(array[index])){
             this.selectedPictureArray.remove(array[index]);
             counter -=1;
@@ -187,10 +187,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mDownloadText.setText("You have selected "+ String.valueOf(counter) + (counter==1? " picture":" pictures"));
             ImageView img_view = view.findViewById(R.id.imgtick);
             img_view.setVisibility(View.GONE);
-
-            String expr = "You have unselected this image";
-            Toast toast = Toast.makeText(this, expr, Toast.LENGTH_LONG);
-            toast.show();
         }
         else
         {
@@ -200,11 +196,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mDownloadText.setText("You have selected "+ String.valueOf(counter) + (counter==1? " picture":" pictures"));
             ImageView img_view = view.findViewById(R.id.imgtick);
             img_view.setVisibility(View.VISIBLE);
-            String expr = "You have selected this image";
-            Toast toast = Toast.makeText(this, expr, Toast.LENGTH_LONG);
-            toast.show();
-
-
         }
 
         if (counter == 6){
