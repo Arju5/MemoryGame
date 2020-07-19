@@ -83,14 +83,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setStringPictureList((ArrayList<String>) msg.obj);
             }
             else if (msg.what == PROGRESS_UPDATE){
-//            if (msg.what == PROGRESS_UPDATE){
-
                     setProgressBarVisible(true);
                     mProgressBar.setVisibility(View.VISIBLE);
                     mProgressBar.setProgress(msg.arg1);
                     mDownloadText.setVisibility(View.VISIBLE);
                     mDownloadText.setText("Downloading " + msg.arg1 / 5 + " of 20 pictures");
-
                 }
 
             else if (msg.what == DOWNLOAD_COMPLETED) {
@@ -111,12 +108,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
-    //testdata
-//    private String[] cartoons = {
-//            "hug", "laugh", "peep", "snore", "stop",
-//            "tired", "full", "what", "afraid", "no_way"
-//    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,22 +127,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mDownloadText.setVisibility(View.GONE);
         }
 
-//     startActivity(new Intent(MainActivity.this, DetailActivity.class));
-
         mButtonFetch = findViewById(R.id.button_fetch);
         if (mButtonFetch !=null){
             mButtonFetch.setOnClickListener(this);
         }
-
         for(int i = 1;i<21; i++){
             String filePath = "GamePhoto";
             String fileName = "photo_" + i + ".jpg";
             File mTargetFile = new File(MainActivity.this.getFilesDir(),filePath + "/" + fileName);
             testlist1.add(mTargetFile.getAbsolutePath());
         }
-
         deleteFilesinGamePhoto(MainActivity.this);
-
     }
 
     @Override
@@ -177,36 +163,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     startActivity(intent);
                 }
 
-
                 break;
-
         }
 
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
-        // checking index
-//        File dir = new File(getStringPictureList().get(0));
-//        System.out.println(dir.getParentFile());
 
         System.out.println("Index: " + String.valueOf(index));
         System.out.println("L: " + String.valueOf(l));
-//        ArrayList<String> list2 = getStringPictureList();
-//        System.out.println(list2);
+
         String[] array = new String[getStringPictureList().size()];
         for (int i=0;i<getStringPictureList().size();i++){
             array[i] = getStringPictureList().get(i);
 //            System.out.println("This is after clicking: " + array[i]);
         }
-//        System.out.println(array);
-
-        /*ImageView imgview = view.findViewById(R.id.img1);
-        System.out.println("*****TestingIMg*****" + imgview);*/
-
-
-
-        //Still working on this
 
         if (this.selectedPictureArray.contains(array[index])){
             this.selectedPictureArray.remove(array[index]);
