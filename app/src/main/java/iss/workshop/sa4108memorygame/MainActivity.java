@@ -209,15 +209,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /*ImageView imgview = view.findViewById(R.id.img1);
         System.out.println("*****TestingIMg*****" + imgview);*/
 
-        ImageView img_view = view.findViewById(R.id.imgtick);
-        img_view.setVisibility(View.VISIBLE);
 
 
         //Still working on this
 
         if (this.selectedPictureArray.contains(array[index])){
+            this.selectedPictureArray.remove(array[index]);
+            counter -=1;
+            new SoundPoolPlayer(this).playSoundWithRedId(R.raw.click);
             mDownloadText.setText("You have selected "+ String.valueOf(counter) + (counter==1? " picture":" pictures"));
-            String expr = "You have selected this image already. \n Please select another 1";
+            ImageView img_view = view.findViewById(R.id.imgtick);
+            img_view.setVisibility(View.GONE);
+
+            String expr = "You have unselected this image";
             Toast toast = Toast.makeText(this, expr, Toast.LENGTH_LONG);
             toast.show();
         }
@@ -227,6 +231,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             this.selectedPictureArray.add(array[index]);
             new SoundPoolPlayer(this).playSoundWithRedId(R.raw.click);
             mDownloadText.setText("You have selected "+ String.valueOf(counter) + (counter==1? " picture":" pictures"));
+            ImageView img_view = view.findViewById(R.id.imgtick);
+            img_view.setVisibility(View.VISIBLE);
+            String expr = "You have selected this image";
+            Toast toast = Toast.makeText(this, expr, Toast.LENGTH_LONG);
+            toast.show();
+
 
         }
 

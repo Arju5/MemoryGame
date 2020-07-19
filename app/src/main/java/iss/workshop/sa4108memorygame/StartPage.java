@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class StartPage extends AppCompatActivity {
     private ImageButton btn_start;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,10 @@ public class StartPage extends AppCompatActivity {
             }
 
         });
+
+        imageView = findViewById(R.id.imageView);
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
         ActionBar mActionBar = getSupportActionBar();
         mActionBar.hide();
     }
