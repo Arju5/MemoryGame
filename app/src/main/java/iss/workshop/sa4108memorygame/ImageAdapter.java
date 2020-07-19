@@ -44,7 +44,7 @@ public class ImageAdapter extends ArrayAdapter {
 //        int id1 = context.getResources().getIdentifier(imgList.get(pos), "drawable", context.getPackageName());
         File imgFile = new File(imgList.get(pos));
         System.out.println("This is the new photo link:" + imgList.get(pos));
-        if(imgFile.exists()) {
+        if (imgFile.exists()) {
             Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             img1.setImageBitmap(myBitmap);
             img1.setTag(imgList.get(pos));

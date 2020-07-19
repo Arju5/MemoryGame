@@ -30,7 +30,7 @@ public class ResultActivity extends AppCompatActivity {
     EditText nameInput;
     TextView playerScore;
 
-    MediaPlayer player;
+    MediaPlayer player2;
 
 
     @Override
@@ -40,9 +40,9 @@ public class ResultActivity extends AppCompatActivity {
         //plays scoreboard audio when displaying player score
         //new SoundPoolPlayer(this).playSoundWithRedId(R.raw.scoreboard);
 
-        player = MediaPlayer.create(this, R.raw.scoreboard);
-        player.start();
-        player.setLooping(true);
+        player2 = MediaPlayer.create(this, R.raw.scoreboard);
+        player2.start();
+        player2.setLooping(true);
 
         Intent intent = getIntent();
         final String time = intent.getStringExtra("timer");
@@ -60,7 +60,11 @@ public class ResultActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                submitScore(time);
+                if (nameInput.length() > 0) {
+                    submitScore(time);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Name is required.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -86,9 +90,9 @@ public class ResultActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-    Intent intent = new Intent( ResultActivity.this, StartPage.class);
-    startActivity(intent);
-    finish();
+        Intent intent = new Intent(ResultActivity.this, StartPage.class);
+        startActivity(intent);
+        finish();
     }
 
     public void openScoreboard() {
@@ -106,14 +110,14 @@ public class ResultActivity extends AppCompatActivity {
 
         String filePath = "ScoreBoard";
         String fileName = "ScoreBoard.txt";
-        File mTargetFile = new File(this.getFilesDir(), filePath + "/" +fileName);
-        String fileContent = nameInput.getText().toString() + "," + time +"\n";
+        File mTargetFile = new File(this.getFilesDir(), filePath + "/" + fileName);
+        String fileContent = nameInput.getText().toString() + "," + time + "\n";
 
-        try{
+        try {
 
             File parent = mTargetFile.getParentFile();
 
-            if(!parent.exists() && !parent.mkdirs()) {
+            if (!parent.exists() && !parent.mkdirs()) {
                 throw new IllegalStateException("Couldn't create directory: " + parent);
             }
             FileOutputStream fos = new FileOutputStream(mTargetFile, true);
@@ -124,31 +128,35 @@ public class ResultActivity extends AppCompatActivity {
         }
 
         nameInput.setEnabled(false);
+        submit.setClickable(false);
         Intent mainIntent = new Intent(ResultActivity.this, ScoreActivity.class);
 
         startActivity(mainIntent);
+
+
     }
+
     @Override
     protected void onPause() {
         super.onPause();
-        player.pause();
+        player2.pause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        player.start();
+        player2.start();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        player.seekTo(0);
+        player2.seekTo(0);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        player.release();
+        player2.release();
     }
 }

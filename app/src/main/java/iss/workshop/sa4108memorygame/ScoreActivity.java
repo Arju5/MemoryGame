@@ -28,7 +28,7 @@ public class ScoreActivity extends AppCompatActivity {
     TextView rank, name, time;
     private int count=1;
     ArrayList<User> users = new ArrayList<User>();
-    MediaPlayer player;
+    MediaPlayer player3;
 
 
     @Override
@@ -39,9 +39,9 @@ public class ScoreActivity extends AppCompatActivity {
         //new SoundPoolPlayer(this).playSoundWithRedId(R.raw.scoreboard);
         Intent intent = getIntent();
 
-        player = MediaPlayer.create(this, R.raw.scoreboard);
-        player.start();
-        player.setLooping(true);
+        player3 = MediaPlayer.create(this, R.raw.scoreboard);
+        player3.start();
+        player3.setLooping(true);
 
 
         /*TextView playerName = (TextView) findViewById(R.id.playerName);
@@ -125,24 +125,24 @@ public class ScoreActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        player.pause();
+        player3.pause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        player.start();
+        player3.start();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        player.seekTo(0);
+        player3.seekTo(0);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        player.release();
+        player3.release();
     }
 }
