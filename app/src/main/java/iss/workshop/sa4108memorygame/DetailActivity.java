@@ -200,6 +200,13 @@ public class DetailActivity extends AppCompatActivity
     }
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(DetailActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         player.pause();
