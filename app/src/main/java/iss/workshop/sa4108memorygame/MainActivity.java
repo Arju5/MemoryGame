@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText mEditTextUrl;
     private ProgressBar mProgressBar;
     private TextView mDownloadText;
-    private ActionBar mActionBar;
 
     private int counter = 0;
     private String[] htmlStringArray;
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public int DOWNLOAD_COMPLETED = 3;
     private ArrayList<String> testlist1 = new ArrayList<>();
     private boolean isNewCount;
-    private int downloadcounter = 0;
 
     public ArrayList<String> getStringPictureList() {
         return stringPictureList;
@@ -98,10 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             else if (msg.what == DOWNLOAD_COMPLETED) {
                 setProgressBarVisible(false);
                 mProgressBar.setVisibility(View.GONE);
-
-//                mDownloadText.setVisibility(View.VISIBLE);
                 mDownloadText.setText("Please select 6 pictures");
-
                 setProgressBarVisible(false);
                 GridView gridView1 = findViewById(R.id.gridView1);
                 gridView1.setNumColumns(4);
