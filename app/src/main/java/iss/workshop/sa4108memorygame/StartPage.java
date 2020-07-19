@@ -12,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 public class StartPage extends AppCompatActivity {
     private ImageButton btn_start;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,8 +27,6 @@ public class StartPage extends AppCompatActivity {
         });
         ActionBar mActionBar = getSupportActionBar();
         mActionBar.hide();
-
-
     }
 
     public void openMainActivity() {
