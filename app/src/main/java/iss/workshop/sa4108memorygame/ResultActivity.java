@@ -30,7 +30,7 @@ public class ResultActivity extends AppCompatActivity {
     EditText nameInput;
     TextView playerScore;
 
-    MediaPlayer player2;
+    MediaPlayer player;
 
 
     @Override
@@ -40,9 +40,9 @@ public class ResultActivity extends AppCompatActivity {
         //plays scoreboard audio when displaying player score
         //new SoundPoolPlayer(this).playSoundWithRedId(R.raw.scoreboard);
 
-        player2 = MediaPlayer.create(this, R.raw.scoreboard);
-        player2.start();
-        player2.setLooping(true);
+        player = MediaPlayer.create(this, R.raw.scoreboard);
+        player.start();
+        player.setLooping(true);
 
         Intent intent = getIntent();
         final String time = intent.getStringExtra("timer");
@@ -65,6 +65,7 @@ public class ResultActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), "Name is required.", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
@@ -102,7 +103,7 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     public void openMainActivity() {
-        Intent mainIntent = new Intent(ResultActivity.this, MainActivity.class);
+        Intent mainIntent = new Intent(ResultActivity.this, StartPage.class);
         startActivity(mainIntent);
     }
 
@@ -139,24 +140,24 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        player2.pause();
+        player.pause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        player2.start();
+        player.start();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        player2.seekTo(0);
+        player.seekTo(0);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        player2.release();
+        player.release();
     }
 }

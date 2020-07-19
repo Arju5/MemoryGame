@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -43,6 +44,14 @@ public class ScoreActivity extends AppCompatActivity {
         player3.start();
         player3.setLooping(true);
 
+        Button startButton = (Button) findViewById(R.id.startButton);
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mainIntent = new Intent(ScoreActivity.this, StartPage.class);
+                startActivity(mainIntent);
+            }
+        });
 
         /*TextView playerName = (TextView) findViewById(R.id.playerName);
         TextView playerScore = (TextView) findViewById(R.id.playerScore);
