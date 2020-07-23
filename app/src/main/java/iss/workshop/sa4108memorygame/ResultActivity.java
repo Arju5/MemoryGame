@@ -94,12 +94,12 @@ public class ResultActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(ResultActivity.this, StartPage.class);
-        startActivity(intent);
-        finish();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        Intent intent = new Intent(ResultActivity.this, StartPage.class);
+//        startActivity(intent);
+//        finish();
+//    }
 
     public void openScoreboard() {
         Intent scoreIntent = new Intent(ResultActivity.this, ScoreActivity.class);

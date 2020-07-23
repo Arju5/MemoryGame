@@ -218,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
             intent.removeExtra("pictureList");
             player.stop();
+            finish();
         }
     }
 
